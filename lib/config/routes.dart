@@ -1,3 +1,4 @@
+import 'package:moneytoring/screens/add_product/add_product_page.dart';
 import 'package:moneytoring/screens/main/main_page.dart';
 
 import '../config/route_name.dart';
@@ -8,4 +9,5 @@ final routes = {
   RouteName.splash: (context) => const SplashPage(),
   RouteName.main: (context) => const MainPage(),
   RouteName.home: (context) => const HomePage(),
+  RouteName.addProduct: (context) => const AddProductPage(),
 };

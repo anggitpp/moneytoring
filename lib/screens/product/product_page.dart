@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:moneytoring/config/constant.dart';
 import 'package:moneytoring/screens/product/widgets/product_item.dart';
+import 'package:moneytoring/widgets/header_page.dart';
+
+import '../../config/route_name.dart';
 
 class ProductPage extends StatelessWidget {
   const ProductPage({Key? key}) : super(key: key);
@@ -10,7 +13,8 @@ class ProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        heroTag: "btnProduct",
+        onPressed: () => Navigator.pushNamed(context, RouteName.addProduct),
         backgroundColor: AppColors.yellowColor,
         child: Icon(
           Icons.add,
@@ -23,23 +27,14 @@ class ProductPage extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: AppSizes.defaultMargin, vertical: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    'Products',
-                    style: AppTextStyle.largeText
-                        .copyWith(fontSize: 20, fontWeight: FontWeight.w500),
-                  ),
-                  Icon(Icons.menu),
-                ],
+            HeaderPage(
+              SizedBox(width: 20),
+              Text(
+                'Products',
+                style: AppTextStyle.largeText
+                    .copyWith(fontSize: 20, fontWeight: FontWeight.w500),
               ),
+              Icon(Icons.menu),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultMargin),

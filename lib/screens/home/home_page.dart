@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       floatingActionButton: FloatingActionButton(
+        heroTag: "btnTransaction",
         onPressed: () {},
         backgroundColor: AppColors.yellowColor,
         child: Icon(
