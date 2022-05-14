@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:moneytoring/config/constant.dart';
+import 'package:moneytoring/config/route_name.dart';
 import 'package:moneytoring/screens/home/widgets/profit_card.dart';
-import 'package:moneytoring/screens/home/widgets/transaction_item.dart';
+import 'package:moneytoring/screens/home/widgets/recent_transaction_item.dart';
+import '../../config/theme.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -33,7 +35,8 @@ class _HomePageState extends State<HomePage>
       backgroundColor: AppColors.backgroundColor,
       floatingActionButton: FloatingActionButton(
         heroTag: "btnTransaction",
-        onPressed: () {},
+        onPressed: () =>
+            Navigator.pushReplacementNamed(context, RouteName.transaction),
         backgroundColor: AppColors.yellowColor,
         child: Icon(
           Icons.add,
@@ -98,7 +101,7 @@ class _HomePageState extends State<HomePage>
                 Column(
                   children: List.generate(
                     10,
-                    (index) => TransactionItem(),
+                    (index) => RecentTransactionItem(),
                   ).toList(),
                 ),
               ],

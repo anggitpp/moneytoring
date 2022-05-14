@@ -4,6 +4,7 @@ import 'package:moneytoring/screens/product/product_page.dart';
 
 import '../../config/constant.dart';
 import '../home/home_page.dart';
+import '../../../config/theme.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);

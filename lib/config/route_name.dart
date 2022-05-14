@@ -3,4 +3,5 @@ class RouteName {
   static const home = '/home';
   static const main = '/main';
   static const addProduct = '/add_product';
+  static const transaction = '/transaction';
 }

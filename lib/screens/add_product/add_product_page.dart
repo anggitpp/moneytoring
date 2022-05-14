@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:moneytoring/config/route_name.dart';
 import 'package:moneytoring/widgets/button_submit.dart';
 import 'package:moneytoring/widgets/create_text_field.dart';
 
 import '../../config/constant.dart';
+import '../../config/theme.dart';
 import '../../widgets/header_page.dart';
 
 class AddProductPage extends StatelessWidget {
@@ -17,9 +19,13 @@ class AddProductPage extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: [
             HeaderPage(
-              Icon(
-                Icons.arrow_back,
-                size: 24,
+              GestureDetector(
+                onTap: () =>
+                    Navigator.pushReplacementNamed(context, RouteName.main),
+                child: Icon(
+                  Icons.arrow_back,
+                  size: 24,
+                ),
               ),
               Text(
                 'Add Product',

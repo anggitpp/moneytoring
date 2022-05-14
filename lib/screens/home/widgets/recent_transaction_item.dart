@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../config/constant.dart';
+import '../../../config/theme.dart';
 
-class TransactionItem extends StatelessWidget {
-  const TransactionItem({Key? key}) : super(key: key);
+class RecentTransactionItem extends StatelessWidget {
+  const RecentTransactionItem({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

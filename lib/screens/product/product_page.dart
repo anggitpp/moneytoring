@@ -5,6 +5,7 @@ import 'package:moneytoring/screens/product/widgets/product_item.dart';
 import 'package:moneytoring/widgets/header_page.dart';
 
 import '../../config/route_name.dart';
+import '../../../config/theme.dart';
 
 class ProductPage extends StatelessWidget {
   const ProductPage({Key? key}) : super(key: key);
@@ -23,6 +24,7 @@ class ProductPage extends StatelessWidget {
         ),
         elevation: 0,
       ),
+      backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.zero,

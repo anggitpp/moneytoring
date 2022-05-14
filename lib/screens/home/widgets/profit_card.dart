@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:moneytoring/screens/home/widgets/profit_text_box.dart';
 
 import '../../../config/constant.dart';
+import '../../../config/theme.dart';
 
 class ProfitCard extends StatelessWidget {
   const ProfitCard({Key? key}) : super(key: key);
