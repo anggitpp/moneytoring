@@ -16,10 +16,8 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    Timer(
-        const Duration(seconds: 2),
-        () => Navigator.pushReplacementNamed(
-            context, RouteName.transactionDetail));
+    Timer(const Duration(seconds: 2),
+        () => Navigator.pushReplacementNamed(context, RouteName.main));
   }
 
   @override

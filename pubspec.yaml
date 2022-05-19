@@ -36,6 +36,7 @@ dependencies:
   indexed: ^0.0.6
   intl: ^0.17.0
   supercharged: ^2.1.1
+  syncfusion_flutter_charts: ^20.1.56
 
 dev_dependencies:
   flutter_lints: ^1.0.0

@@ -5,4 +5,5 @@ class RouteName {
   static const addProduct = '/add_product';
   static const transaction = '/transaction';
   static const transactionDetail = '/transaction_detail';
+  static const graph = '/graph';
 }
