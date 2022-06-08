@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moneytoring/config/constant.dart';
+import 'package:moneytoring/config/route_name.dart';
 import 'package:moneytoring/config/theme.dart';
 import 'package:moneytoring/widgets/button_submit.dart';
 
@@ -36,7 +37,7 @@ class HomeDrawer extends StatelessWidget {
           ),
         ),
         InkWell(
-          onTap: () {},
+          onTap: () => Navigator.pushNamed(context, RouteName.category),
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: InkWell(
