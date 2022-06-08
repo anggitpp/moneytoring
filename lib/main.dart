@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moneytoring/config/routes.dart';
+import 'package:moneytoring/config/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Moneytoring',
       routes: routes,
+      theme: lightTheme,
     );
   }
 }
