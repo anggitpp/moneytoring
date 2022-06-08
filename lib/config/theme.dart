@@ -27,3 +27,22 @@ class AppColors {
   static Color lightGreyColor = '#E5E5E5'.toColor();
   static Color greenColor = '#0C8B20'.toColor();
 }
+
+ThemeData lightTheme = ThemeData(
+  tabBarTheme: TabBarTheme(
+    labelStyle: AppTextStyle.mediumText,
+    unselectedLabelStyle: AppTextStyle.mediumText,
+    labelColor: Colors.black,
+    unselectedLabelColor: AppColors.greyColor,
+    // indicator: ShapeDecoration(
+    //   shape: UnderlineInputBorder(
+    //     borderSide: BorderSide(color: AppColors.yellowColor),
+    //   ),
+    // ),
+  ),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: AppColors.yellowColor,
+    foregroundColor: Colors.white,
+    elevation: 0,
+  ),
+);
