@@ -33,9 +33,12 @@ class ProfitCard extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: AppColors.backgroundColor,
                       borderRadius: BorderRadius.circular(8)),
-                  child: const Icon(
-                    Icons.menu,
-                    size: 20,
+                  child: InkWell(
+                    onTap: Scaffold.of(context).openDrawer,
+                    child: const Icon(
+                      Icons.menu,
+                      size: 20,
+                    ),
                   ),
                 ),
                 Column(

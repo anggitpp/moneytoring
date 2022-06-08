@@ -23,7 +23,7 @@ class ButtonSubmit extends StatelessWidget {
           primary: AppColors.yellowColor,
         ),
         child: Text(
-          'Save Product',
+          text,
           style: AppTextStyle.mediumText.copyWith(fontSize: 15),
         ),
       ),

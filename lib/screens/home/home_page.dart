@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:moneytoring/config/constant.dart';
 import 'package:moneytoring/config/route_name.dart';
+import 'package:moneytoring/screens/home/widgets/home_drawer.dart';
 import 'package:moneytoring/screens/home/widgets/profit_card.dart';
 import 'package:moneytoring/screens/home/widgets/recent_transaction_item.dart';
 import '../../config/theme.dart';
@@ -44,6 +45,9 @@ class _HomePageState extends State<HomePage>
           color: Colors.white,
         ),
         elevation: 0,
+      ),
+      drawer: Drawer(
+        child: HomeDrawer(),
       ),
       body: ListView(
         padding: EdgeInsets.zero,
