@@ -7,4 +7,5 @@ class RouteName {
   static const transactionDetail = '/transaction_detail';
   static const graph = '/graph';
   static const category = '/category';
+  static const addCategory = '/add_category';
 }

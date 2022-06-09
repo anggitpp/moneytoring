@@ -4,6 +4,7 @@ import 'package:moneytoring/screens/main/main_page.dart';
 import 'package:moneytoring/screens/transaction/transaction_page.dart';
 
 import '../config/route_name.dart';
+import '../screens/add_category/add_category_page.dart';
 import '../screens/splash/splash_page.dart';
 import '../screens/home/home_page.dart';
 import '../screens/transaction_detail/transaction_detail_page.dart';
@@ -16,4 +17,5 @@ final routes = {
   RouteName.transaction: (context) => const TransactionPage(),
   RouteName.transactionDetail: (context) => const TransactionDetailPage(),
   RouteName.category: (context) => const CategoryPage(),
+  RouteName.addCategory: (context) => const AddCategoryPage(),
 };

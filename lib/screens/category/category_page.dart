@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moneytoring/config/route_name.dart';
 import 'package:moneytoring/config/theme.dart';
 import 'package:moneytoring/models/category.dart';
 import 'package:moneytoring/screens/category/widgets/category_item.dart';
@@ -20,11 +21,12 @@ class CategoryPage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-            child: Icon(
-              Icons.add,
-              size: 30,
-            ),
-            onPressed: () {}),
+          child: Icon(
+            Icons.add,
+            size: 30,
+          ),
+          onPressed: () => Navigator.pushNamed(context, RouteName.addCategory),
+        ),
         backgroundColor: AppColors.backgroundColor,
         body: SafeArea(
           bottom: false,
