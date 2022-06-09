@@ -18,7 +18,7 @@ class TransactionDetailPage extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: [
             HeaderPage(
-              Icon(Icons.arrow_back, size: 24),
+              const Icon(Icons.arrow_back, size: 24),
               Text(
                 'Transaction Details',
                 style: AppTextStyle.veryLargeText.copyWith(
@@ -26,15 +26,16 @@ class TransactionDetailPage extends StatelessWidget {
                   fontSize: 20,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 24,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultMargin),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: AppSizes.defaultMargin),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -42,7 +43,7 @@ class TransactionDetailPage extends StatelessWidget {
                     'Transaction Item',
                     style: AppTextStyle.mediumText,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Column(
@@ -50,7 +51,7 @@ class TransactionDetailPage extends StatelessWidget {
                     children: List.generate(
                       3,
                       (index) => Column(
-                        children: [
+                        children: const [
                           TransactionDetailItem(),
                           SizedBox(
                             height: 10,
@@ -59,14 +60,14 @@ class TransactionDetailPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
                   Text(
                     'Order Information',
                     style: AppTextStyle.mediumText,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   OrderInformationItem(
@@ -157,7 +158,7 @@ class TransactionDetailPage extends StatelessWidget {
                       style: AppTextStyle.mediumText,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   SizedBox(

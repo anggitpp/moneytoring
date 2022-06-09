@@ -21,7 +21,7 @@ class CategoryPage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          child: Icon(
+          child: const Icon(
             Icons.add,
             size: 30,
           ),
@@ -33,16 +33,18 @@ class CategoryPage extends StatelessWidget {
           child: Column(
             children: [
               HeaderPage(
-                Icon(Icons.arrow_back),
+                InkWell(
+                    onTap: () => Navigator.pushNamed(context, RouteName.home),
+                    child: const Icon(Icons.arrow_back)),
                 Text(
                   'Category',
                   style: AppTextStyle.largeText
                       .copyWith(fontSize: 20, fontWeight: FontWeight.w500),
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
               ),
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(color: Colors.grey, width: 0.8),
                   ),
@@ -55,7 +57,7 @@ class CategoryPage extends StatelessWidget {
                     ),
                   ),
                   indicatorSize: TabBarIndicatorSize.tab,
-                  tabs: [
+                  tabs: const [
                     Tab(
                       child: Text(
                         'Income',

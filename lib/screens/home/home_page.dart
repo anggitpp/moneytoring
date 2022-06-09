@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:moneytoring/config/constant.dart';
 import 'package:moneytoring/config/route_name.dart';
 import 'package:moneytoring/screens/home/widgets/home_drawer.dart';
@@ -39,14 +38,14 @@ class _HomePageState extends State<HomePage>
         onPressed: () =>
             Navigator.pushReplacementNamed(context, RouteName.transaction),
         backgroundColor: AppColors.yellowColor,
-        child: Icon(
+        child: const Icon(
           Icons.add,
           size: 40,
           color: Colors.white,
         ),
         elevation: 0,
       ),
-      drawer: Drawer(
+      drawer: const Drawer(
         child: HomeDrawer(),
       ),
       body: ListView(
@@ -99,13 +98,13 @@ class _HomePageState extends State<HomePage>
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Column(
                   children: List.generate(
                     10,
-                    (index) => RecentTransactionItem(),
+                    (index) => const RecentTransactionItem(),
                   ).toList(),
                 ),
               ],

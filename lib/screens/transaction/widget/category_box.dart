@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moneytoring/models/category.dart';
 
-import '../../../config/constant.dart';
 import '../../../config/theme.dart';
 
 class CategoryBox extends StatelessWidget {
@@ -39,7 +38,7 @@ class CategoryBox extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Text(

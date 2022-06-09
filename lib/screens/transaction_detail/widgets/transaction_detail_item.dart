@@ -15,12 +15,12 @@ class TransactionDetailItem extends StatelessWidget {
           height: 40,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            image: DecorationImage(
+            image: const DecorationImage(
                 image: AssetImage('assets/images/aquarium.jpeg'),
                 fit: BoxFit.cover),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 10,
         ),
         Column(
@@ -38,7 +38,7 @@ class TransactionDetailItem extends StatelessWidget {
             ),
           ],
         ),
-        Spacer(),
+        const Spacer(),
         Text(
           '2 items',
           style: AppTextStyle.mediumText,

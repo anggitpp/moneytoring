@@ -16,14 +16,14 @@ class TopProductItem extends StatelessWidget {
             Container(
               width: 50,
               height: 50,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
                     image: AssetImage('assets/images/aquarium.jpeg'),
                     fit: BoxFit.cover),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Column(
@@ -33,7 +33,7 @@ class TopProductItem extends StatelessWidget {
                   'Aquarium XL',
                   style: AppTextStyle.mediumText,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 Text(
@@ -42,7 +42,7 @@ class TopProductItem extends StatelessWidget {
                 )
               ],
             ),
-            Spacer(),
+            const Spacer(),
             Text(
               NumberFormat.currency(
                       locale: 'id_ID', symbol: '', decimalDigits: 0)
@@ -52,12 +52,12 @@ class TopProductItem extends StatelessWidget {
             )
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Row(
           children: [
-            Spacer(),
+            const Spacer(),
             Container(
               width: AppSizes.phoneWidth(context) -
                   60 -
@@ -68,7 +68,7 @@ class TopProductItem extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
       ],

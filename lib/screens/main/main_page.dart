@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:moneytoring/screens/graph/graph_page.dart';
 import 'package:moneytoring/screens/product/product_page.dart';
 
-import '../../config/constant.dart';
 import '../home/home_page.dart';
 import '../../../config/theme.dart';
 

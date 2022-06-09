@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:moneytoring/screens/graph/widgets/sales_chart.dart';
 import 'package:moneytoring/screens/graph/widgets/top_product_item.dart';
-import 'package:supercharged/supercharged.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'package:moneytoring/config/constant.dart';
 import 'package:moneytoring/config/theme.dart';
@@ -30,25 +28,26 @@ class _GraphPageState extends State<GraphPage> {
         padding: EdgeInsets.zero,
         children: [
           HeaderPage(
-            SizedBox(),
+            const SizedBox(),
             Text(
               'Graph',
               style: AppTextStyle.mediumText
                   .copyWith(fontSize: 20, fontWeight: FontWeight.w500),
             ),
-            SizedBox(),
+            const SizedBox(),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultMargin),
+            padding:
+                const EdgeInsets.symmetric(horizontal: AppSizes.defaultMargin),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   width: AppSizes.phoneWidthMargin(context),
-                  padding: EdgeInsets.fromLTRB(10, 12, 10, 12),
+                  padding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
                   height: 155,
                   decoration: BoxDecoration(
                     color: AppColors.yellowColor,
@@ -65,10 +64,10 @@ class _GraphPageState extends State<GraphPage> {
                             style: AppTextStyle.verySmallText
                                 .copyWith(fontWeight: FontWeight.w500),
                           ),
-                          Icon(Icons.arrow_drop_down),
+                          const Icon(Icons.arrow_drop_down),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 3,
                       ),
                       Text(
@@ -82,11 +81,11 @@ class _GraphPageState extends State<GraphPage> {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Row(
-                        children: [
+                        children: const [
                           GraphCardItem(),
                           SizedBox(width: 10),
                           GraphCardItem(),
@@ -95,7 +94,7 @@ class _GraphPageState extends State<GraphPage> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Text(
@@ -103,23 +102,23 @@ class _GraphPageState extends State<GraphPage> {
                   style: AppTextStyle.mediumText
                       .copyWith(fontWeight: FontWeight.w500),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
-                SalesChart(),
-                SizedBox(height: 20),
+                const SalesChart(),
+                const SizedBox(height: 20),
                 Text(
                   'Top Product',
                   style: AppTextStyle.mediumText.copyWith(
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Column(
-                  children:
-                      List.generate(10, (index) => TopProductItem()).toList(),
+                  children: List.generate(10, (index) => const TopProductItem())
+                      .toList(),
                 )
               ],
             ),

@@ -22,7 +22,7 @@ class AddProductPage extends StatelessWidget {
               GestureDetector(
                 onTap: () =>
                     Navigator.pushReplacementNamed(context, RouteName.main),
-                child: Icon(
+                child: const Icon(
                   Icons.arrow_back,
                   size: 24,
                 ),
@@ -32,15 +32,15 @@ class AddProductPage extends StatelessWidget {
                 style: AppTextStyle.largeText
                     .copyWith(fontSize: 20, fontWeight: FontWeight.w500),
               ),
-              SizedBox(width: 24),
+              const SizedBox(width: 24),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Container(
               width: 110,
               height: 110,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/photo_border.png'),
                 ),
@@ -49,21 +49,22 @@ class AddProductPage extends StatelessWidget {
               child: Container(
                 width: 90,
                 height: 90,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/photo.png'),
                   ),
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultMargin),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: AppSizes.defaultMargin),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: const [
                   CreateTextField(
                     label: 'Product Name',
                     textHint: 'Type your product name',

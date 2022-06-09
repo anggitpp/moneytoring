@@ -3,7 +3,6 @@ import 'package:supercharged/supercharged.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../config/theme.dart';
-import '../graph_page.dart';
 
 class SalesChart extends StatefulWidget {
   const SalesChart({Key? key}) : super(key: key);
@@ -26,7 +25,7 @@ class _SalesChartState extends State<SalesChart> {
   Widget build(BuildContext context) {
     return Container(
       height: 200,
-      padding: EdgeInsets.only(right: 10),
+      padding: const EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.lightGreyColor),
         borderRadius: BorderRadius.circular(20),

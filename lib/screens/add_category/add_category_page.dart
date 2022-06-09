@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moneytoring/config/constant.dart';
 import 'package:moneytoring/config/route_name.dart';
 import 'package:moneytoring/cubits/add_category/add_category_cubit.dart';
-import 'package:moneytoring/models/category.dart';
 import 'package:moneytoring/widgets/button_submit.dart';
 import 'package:moneytoring/widgets/header_page.dart';
 
@@ -28,19 +27,19 @@ class AddCategoryPage extends StatelessWidget {
                 Column(
                   children: [
                     HeaderPage(
-                      Icon(Icons.arrow_back),
+                      const Icon(Icons.arrow_back),
                       Text(
                         'Add Category',
                         style: AppTextStyle.largeText.copyWith(
                             fontSize: 20, fontWeight: FontWeight.w500),
                       ),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                           horizontal: AppSizes.defaultMargin),
                       child: Row(
                         children: [
@@ -61,7 +60,7 @@ class AddCategoryPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                           ),
                           Expanded(
@@ -82,19 +81,19 @@ class AddCategoryPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Text(
                       'Icon',
                       style: AppTextStyle.largeText,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                             horizontal: AppSizes.defaultMargin),
                         child: SingleChildScrollView(
                           child: Align(
@@ -136,7 +135,7 @@ class AddCategoryPage extends StatelessWidget {
                   ],
                 ),
                 Align(
-                  alignment: Alignment(0, 0.9),
+                  alignment: const Alignment(0, 0.9),
                   child: ButtonSubmit(
                     'Simpan',
                     onPressed: () =>

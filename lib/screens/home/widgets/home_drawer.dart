@@ -18,7 +18,7 @@ class HomeDrawer extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               SizedBox(
@@ -26,7 +26,7 @@ class HomeDrawer extends StatelessWidget {
                 height: 80,
                 child: Image.asset('assets/photo.png'),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Text(
@@ -48,7 +48,7 @@ class HomeDrawer extends StatelessWidget {
                     size: 30,
                     color: AppColors.greenColor,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 20,
                   ),
                   Text(
@@ -65,9 +65,9 @@ class HomeDrawer extends StatelessWidget {
           thickness: 1,
           color: AppColors.lightGreyColor,
         ),
-        Spacer(),
-        Padding(
-          padding: const EdgeInsets.symmetric(
+        const Spacer(),
+        const Padding(
+          padding: EdgeInsets.symmetric(
               horizontal: AppSizes.defaultMargin, vertical: 20),
           child: ButtonSubmit('Sign In'),
         ),

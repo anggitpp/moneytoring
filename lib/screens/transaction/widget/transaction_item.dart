@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../config/constant.dart';
 import '../../../config/theme.dart';
 
 class TransactionItem extends StatelessWidget {
@@ -16,12 +15,12 @@ class TransactionItem extends StatelessWidget {
           height: 40,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            image: DecorationImage(
+            image: const DecorationImage(
               image: AssetImage('assets/images/aquarium.jpeg'),
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 10,
         ),
         Column(
@@ -39,7 +38,7 @@ class TransactionItem extends StatelessWidget {
             ),
           ],
         ),
-        Spacer(),
+        const Spacer(),
         Container(
           width: 25,
           height: 25,
@@ -50,12 +49,12 @@ class TransactionItem extends StatelessWidget {
             ),
           ),
           alignment: Alignment.center,
-          child: Icon(
+          child: const Icon(
             Icons.remove,
             size: 20,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 10,
         ),
         Text(
@@ -64,7 +63,7 @@ class TransactionItem extends StatelessWidget {
             fontSize: 20,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 10,
         ),
         Container(
@@ -77,7 +76,7 @@ class TransactionItem extends StatelessWidget {
             ),
           ),
           alignment: Alignment.center,
-          child: Icon(
+          child: const Icon(
             Icons.add,
             size: 20,
           ),

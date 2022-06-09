@@ -2,12 +2,12 @@ part of 'add_category_cubit.dart';
 
 class AddCategoryState extends Equatable {
   final String selectedIcon;
-  AddCategoryState({
+  const AddCategoryState({
     required this.selectedIcon,
   });
 
   factory AddCategoryState.initial() {
-    return AddCategoryState(selectedIcon: 'icon-electronic.png');
+    return const AddCategoryState(selectedIcon: 'icon-electronic.png');
   }
 
   AddCategoryState copyWith({

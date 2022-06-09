@@ -12,7 +12,7 @@ class ProductItem extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
               vertical: 17, horizontal: AppSizes.defaultMargin),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -24,13 +24,13 @@ class ProductItem extends StatelessWidget {
                   elevation: 4,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4)),
-                  child: Image(
+                  child: const Image(
                     image: AssetImage('assets/images/bulb.jpeg'),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Column(

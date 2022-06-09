@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:moneytoring/config/constant.dart';
 import 'package:moneytoring/config/route_name.dart';
 import 'package:moneytoring/models/category.dart';
@@ -28,7 +27,7 @@ class _TransactionPageState extends State<TransactionPage> {
             HeaderPage(
               GestureDetector(
                   onTap: () => Navigator.pushNamed(context, RouteName.main),
-                  child: Icon(Icons.arrow_back)),
+                  child: const Icon(Icons.arrow_back)),
               Row(
                 children: [
                   Text(
@@ -36,16 +35,16 @@ class _TransactionPageState extends State<TransactionPage> {
                     style: AppTextStyle.veryLargeText
                         .copyWith(fontWeight: FontWeight.w500, fontSize: 20),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
-                  Icon(
+                  const Icon(
                     Icons.arrow_drop_down,
                     size: 30,
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
             ),
@@ -66,31 +65,32 @@ class _TransactionPageState extends State<TransactionPage> {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultMargin),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: AppSizes.defaultMargin),
               child: Wrap(
                 spacing: 10,
                 runSpacing: 10,
                 children: List.generate(
                   8,
-                  (index) => ProductBox(),
+                  (index) => const ProductBox(),
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Padding(
-              padding: EdgeInsets.only(left: AppSizes.defaultMargin),
+              padding: const EdgeInsets.only(left: AppSizes.defaultMargin),
               child: Text(
                 'Transaction Item',
                 style: AppTextStyle.mediumText,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Divider(
@@ -98,20 +98,20 @@ class _TransactionPageState extends State<TransactionPage> {
               thickness: 1,
               color: AppColors.lightGreyColor,
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Column(
               children: List.generate(
                 3,
-                (index) => Padding(
+                (index) => const Padding(
                   padding: EdgeInsets.fromLTRB(
                       AppSizes.defaultMargin, 0, AppSizes.defaultMargin, 10),
                   child: TransactionItem(),
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             GestureDetector(
@@ -124,7 +124,7 @@ class _TransactionPageState extends State<TransactionPage> {
                   shape: BoxShape.circle,
                   color: AppColors.yellowColor,
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.arrow_forward,
                   color: Colors.white,
                   size: 24,
