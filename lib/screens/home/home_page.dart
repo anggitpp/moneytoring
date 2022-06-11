@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:moneytoring/config/constant.dart';
 import 'package:moneytoring/config/route_name.dart';
+import 'package:moneytoring/models/category.dart';
+import 'package:moneytoring/repository/category_repository.dart';
 import 'package:moneytoring/screens/home/widgets/home_drawer.dart';
 import 'package:moneytoring/screens/home/widgets/profit_card.dart';
 import 'package:moneytoring/screens/home/widgets/recent_transaction_item.dart';
 import '../../config/theme.dart';
+import 'package:sqflite/sqflite.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -22,11 +25,29 @@ class _HomePageState extends State<HomePage>
   void initState() {
     super.initState();
 
+    // openDB(
+    //   Category(
+    //     id: 1,
+    //     categoryType: CategoryType.expenses,
+    //     name: 'Kategori',
+    //     imagePath: 'test',
+    //   ),
+    // );
+
+    cekDB();
+
     tabController = TabController(
       initialIndex: selectedIndex,
       length: 2,
       vsync: this,
     );
+  }
+
+  Future<void> cekDB() async {
+    var db = await openDatabase('moneytoring.db');
+
+    var result = await db.rawQuery('SELECT * FROM categories');
+    print(result);
   }
 
   @override

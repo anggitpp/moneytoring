@@ -35,6 +35,8 @@ dependencies:
   google_fonts: ^2.3.2
   indexed: ^0.0.6
   intl: ^0.17.0
+  path_provider: ^2.0.11
+  sqflite: ^2.0.2+1
   supercharged: ^2.1.1
   syncfusion_flutter_charts: ^20.1.56
 

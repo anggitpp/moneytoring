@@ -18,7 +18,7 @@ class CategoryItem extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
               horizontal: AppSizes.defaultMargin, vertical: 15),
           child: Row(
             children: [
@@ -26,7 +26,7 @@ class CategoryItem extends StatelessWidget {
                 Icons.menu,
                 color: AppColors.greyColor,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
               Container(
@@ -46,14 +46,14 @@ class CategoryItem extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
               Text(
                 text,
                 style: AppTextStyle.largeText,
               ),
-              Spacer(),
+              const Spacer(),
               Icon(
                 Icons.delete,
                 color: AppColors.greyColor,

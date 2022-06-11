@@ -14,3 +14,5 @@ class AppSizes {
     return MediaQuery.of(context).size.height;
   }
 }
+
+const String databaseApplication = 'moneytoring.db';

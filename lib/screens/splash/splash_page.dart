@@ -1,7 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:moneytoring/config/route_name.dart';
+import 'package:moneytoring/shared/database_helpder.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../../config/theme.dart';
 
@@ -16,8 +20,15 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
+
+    cekDatabase();
+
     Timer(const Duration(seconds: 2),
         () => Navigator.pushReplacementNamed(context, RouteName.main));
+  }
+
+  Future<void> cekDatabase() async {
+    await DatabaseHelper.instance.database;
   }
 
   @override
