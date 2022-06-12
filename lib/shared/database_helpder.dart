@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:moneytoring/models/category.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 import '../config/constant.dart';
@@ -26,65 +25,67 @@ class DatabaseHelper {
 
   Future _onCreate(Database db, int version) async {
     await db.execute(
-        'CREATE TABLE categories (id INTEGER PRIMARY KEY, category_type TEXT, name TEXT, image TEXT)');
-    await db.transaction((db) async {
-      await db.insert(
+        'CREATE TABLE categories (id INTEGER PRIMARY KEY AUTOINCREMENT, category_type TEXT, name TEXT, image TEXT)');
+    await db.transaction(
+      (db) async {
+        await db.insert(
           'categories',
           const Category(
-                  id: 1,
                   categoryType: CategoryType.income,
                   name: 'Aquarium Kaca',
                   imagePath: 'assets/icon/icon-aquarium.png')
-              .toMap());
-      await db.insert(
+              .toMap(),
+        );
+        await db.insert(
           'categories',
           const Category(
-                  id: 2,
                   categoryType: CategoryType.income,
                   name: 'Smart Device',
                   imagePath: 'assets/icon/icon-bulb.png')
-              .toMap());
-      await db.insert(
+              .toMap(),
+        );
+        await db.insert(
           'categories',
           const Category(
-                  id: 3,
                   categoryType: CategoryType.income,
                   name: 'Electronic',
                   imagePath: 'assets/icon/icon-electronic.png')
-              .toMap());
-      await db.insert(
+              .toMap(),
+        );
+        await db.insert(
           'categories',
           const Category(
-                  id: 4,
                   categoryType: CategoryType.expenses,
                   name: 'Aquarium Kaca',
                   imagePath: 'assets/icon/icon-aquarium.png')
-              .toMap());
-      await db.insert(
+              .toMap(),
+        );
+        await db.insert(
           'categories',
           const Category(
-                  id: 5,
                   categoryType: CategoryType.expenses,
                   name: 'Smart Device',
                   imagePath: 'assets/icon/icon-bulb.png')
-              .toMap());
-      await db.insert(
+              .toMap(),
+        );
+        await db.insert(
           'categories',
           const Category(
-                  id: 6,
                   categoryType: CategoryType.expenses,
                   name: 'Electronic',
                   imagePath: 'assets/icon/icon-electronic.png')
-              .toMap());
+              .toMap(),
+        );
 
-      await db.insert(
+        await db.insert(
           'categories',
           const Category(
-                  id: 7,
                   categoryType: CategoryType.expenses,
                   name: 'Aquarium Kaca',
                   imagePath: 'assets/icon/icon-aquarium.png')
-              .toMap());
-    });
+              .toMap(),
+        );
+      },
+    );
   }
 }

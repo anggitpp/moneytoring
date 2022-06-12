@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage>
     //   ),
     // );
 
-    cekDB();
+    // cekDB();
 
     tabController = TabController(
       initialIndex: selectedIndex,
@@ -43,12 +43,12 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Future<void> cekDB() async {
-    var db = await openDatabase('moneytoring.db');
+  // Future<void> cekDB() async {
+  //   var db = await openDatabase('moneytoring.db');
 
-    var result = await db.rawQuery('SELECT * FROM categories');
-    print(result);
-  }
+  //   var result = await db.rawQuery('SELECT * FROM categories');
+  //   print(result);
+  // }
 
   @override
   Widget build(BuildContext context) {

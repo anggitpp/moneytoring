@@ -3,14 +3,9 @@ import 'package:moneytoring/shared/database_helpder.dart';
 import 'package:sqflite/sqflite.dart';
 
 class CategoryRepository {
-  Database db;
-  CategoryRepository({
-    required this.db,
-  });
-
   final table = 'categories';
 
-  Future open(String path) async {
+  Future open(Database db, String path) async {
     db = await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
       await db.execute(
@@ -18,14 +13,14 @@ class CategoryRepository {
     });
   }
 
-  Future<int> insert(Category category) async {
+  Future<int> insert(Database db, Category category) async {
     int id = await db.insert(table, category.toMap());
 
     return id;
   }
 
-  Future<List<Category>> getTodo() async {
-    var categories = await db.query(table, orderBy: 'name');
+  Future<List<Category>> getCategories(Database db) async {
+    var categories = await db.query(table, orderBy: 'id DESC');
 
     List<Category> categoryList = categories.isNotEmpty
         ? categories.map((e) => Category.fromMap(e)).toList()
@@ -34,7 +29,7 @@ class CategoryRepository {
     return categoryList;
   }
 
-  Future<Category?> getTodoById(int id) async {
+  Future<Category?> getCategorById(Database db, int id) async {
     List<Map<String, Object?>> categories =
         await db.query(table, where: 'id = ?', whereArgs: [id]);
 
@@ -43,6 +38,4 @@ class CategoryRepository {
     }
     return null;
   }
-
-  Future close() async => db.close();
 }

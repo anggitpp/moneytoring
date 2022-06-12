@@ -4,13 +4,13 @@ enum CategoryType {
 }
 
 class Category {
-  final int id;
+  final int? id;
   final CategoryType categoryType;
   final String name;
   final String imagePath;
 
   const Category({
-    required this.id,
+    this.id,
     required this.categoryType,
     required this.name,
     required this.imagePath,
