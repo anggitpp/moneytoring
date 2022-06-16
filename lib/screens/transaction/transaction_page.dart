@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moneytoring/config/constant.dart';
 import 'package:moneytoring/config/route_name.dart';
+import 'package:moneytoring/cubits/cubits.dart';
 import 'package:moneytoring/models/category.dart';
 import 'package:moneytoring/screens/transaction/widget/category_box.dart';
 import 'package:moneytoring/screens/transaction/widget/product_box.dart';
@@ -16,6 +18,12 @@ class TransactionPage extends StatefulWidget {
 }
 
 class _TransactionPageState extends State<TransactionPage> {
+  @override
+  void initState() {
+    context.read<TransactionCubit>().loadCategories();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,17 +58,38 @@ class _TransactionPageState extends State<TransactionPage> {
             ),
             SizedBox(
               height: 80,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: dummyCategories.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.only(
-                        left: index == 0 ? AppSizes.defaultMargin : 10),
-                    child: CategoryBox(
-                      category: dummyCategories[index],
-                      isSelected: index == 0 ? true : false,
-                    ),
+              child: BlocBuilder<TransactionCubit, TransactionState>(
+                builder: (context, state) {
+                  List<Category> categories = state.categories
+                      .where((element) =>
+                          element.categoryType == CategoryType.income)
+                      .toList();
+                  return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: categories.length,
+                    itemBuilder: (context, index) {
+                      Category category = categories[index];
+                      if (state.selectedCategory == null) {
+                        context
+                            .read<TransactionCubit>()
+                            .onPressCategory(categories[0]);
+                      }
+                      return Padding(
+                        padding: EdgeInsets.only(
+                            left: index == 0 ? AppSizes.defaultMargin : 10),
+                        child: GestureDetector(
+                          onTap: () => context
+                              .read<TransactionCubit>()
+                              .onPressCategory(category),
+                          child: CategoryBox(
+                            category: category,
+                            isSelected: category == state.selectedCategory
+                                ? true
+                                : false,
+                          ),
+                        ),
+                      );
+                    },
                   );
                 },
               ),

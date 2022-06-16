@@ -31,6 +31,11 @@ class MyApp extends StatelessWidget {
               categoryRepository: CategoryRepository(),
             ),
           ),
+          BlocProvider<TransactionCubit>(
+            create: (context) => TransactionCubit(
+              categoryRepository: CategoryRepository(),
+            ),
+          ),
         ],
         child: MaterialApp(
           title: 'Moneytoring',
