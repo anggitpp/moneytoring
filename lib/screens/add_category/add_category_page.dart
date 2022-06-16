@@ -50,6 +50,8 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
       'icon-aquarium.png',
       'icon-electronic.png',
       'icon-bulb.png',
+      'icon-tools.png',
+      'icon-money.png',
     ];
     return BlocConsumer<AddCategoryCubit, AddCategoryState>(
       listener: (context, state) {
