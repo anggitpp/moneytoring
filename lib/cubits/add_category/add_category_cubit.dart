@@ -27,4 +27,40 @@ class AddCategoryCubit extends Cubit<AddCategoryState> {
 
     emit(state.copyWith(addCategoryStatus: AddCategoryStatus.finish));
   }
+
+  void updateCategory(Category category) async {
+    print(category);
+    var db = await openDatabase('moneytoring.db');
+
+    emit(state.copyWith(addCategoryStatus: AddCategoryStatus.submitting));
+
+    await categoryRepository.update(db, category);
+
+    emit(state.copyWith(addCategoryStatus: AddCategoryStatus.finish));
+  }
+
+  void getCategory(Category category) {
+    emit(state.copyWith(addCategoryStatus: AddCategoryStatus.loading));
+
+    emit(state.copyWith(
+        addCategoryStatus: AddCategoryStatus.loaded,
+        category: category,
+        selectedIcon: category.imagePath.replaceAll('assets/icon/', '')));
+  }
+
+  void resetData() {
+    emit(
+      state.copyWith(
+          addCategoryStatus: AddCategoryStatus.initial,
+          category: const Category(
+              categoryType: CategoryType.income, name: '', imagePath: ''),
+          selectedIcon: 'icon-electronic.png'),
+    );
+  }
+
+  // @override
+  // Future<void> close() {
+  //   // dispose
+  //   return super.close();
+  // }
 }

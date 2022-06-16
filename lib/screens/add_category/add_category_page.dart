@@ -25,6 +25,26 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
   final TextEditingController nameController = TextEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.arguments['category'] != null) {
+      Category category = widget.arguments['category'];
+      nameController.text = category.name;
+      context.read<AddCategoryCubit>().getCategory(category);
+    } else {
+      context.read<AddCategoryCubit>().resetData();
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    nameController.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<String> icons = [
       'icon-aquarium.png',
@@ -38,7 +58,6 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
             : null;
       },
       builder: (context, state) {
-        print(widget.arguments);
         return Scaffold(
           body: SafeArea(
             child: state.addCategoryStatus != AddCategoryStatus.submitting
@@ -48,8 +67,11 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                         children: [
                           HeaderPage(
                             InkWell(
-                                onTap: () => Navigator.pushNamed(
-                                    context, RouteName.category),
+                                onTap: () => Navigator.pushReplacementNamed(
+                                        context, RouteName.category,
+                                        arguments: {
+                                          'category': null,
+                                        }),
                                 child: const Icon(Icons.arrow_back)),
                             Text(
                               'Add Category',
@@ -161,32 +183,37 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                       ),
                       Align(
                         alignment: const Alignment(0, 0.9),
-                        child: state.addCategoryStatus !=
-                                AddCategoryStatus.submitting
-                            ? ButtonSubmit(
-                                'Simpan',
-                                onPressed: () => context
-                                    .read<AddCategoryCubit>()
-                                    .insertCategory(
-                                      Category(
-                                        categoryType:
-                                            widget.arguments['categoryType'] ==
-                                                    0
-                                                ? CategoryType.income
-                                                : CategoryType.expenses,
-                                        name: nameController.text,
-                                        imagePath:
-                                            'assets/icon/${state.selectedIcon}',
-                                      ),
+                        child: ButtonSubmit(
+                          'Simpan',
+                          onPressed: () => widget.arguments['category'] == null
+                              ? context.read<AddCategoryCubit>().insertCategory(
+                                    Category(
+                                      categoryType:
+                                          widget.arguments['categoryType'] == 0
+                                              ? CategoryType.income
+                                              : CategoryType.expenses,
+                                      name: nameController.text,
+                                      imagePath:
+                                          'assets/icon/${state.selectedIcon}',
                                     ),
-                              )
-                            : Center(
-                                child: CircularProgressIndicator(),
-                              ),
+                                  )
+                              : context.read<AddCategoryCubit>().updateCategory(
+                                    Category(
+                                      id: widget.arguments['category'].id,
+                                      categoryType:
+                                          widget.arguments['categoryType'] == 0
+                                              ? CategoryType.income
+                                              : CategoryType.expenses,
+                                      name: nameController.text,
+                                      imagePath:
+                                          'assets/icon/${state.selectedIcon}',
+                                    ),
+                                  ),
+                        ),
                       ),
                     ],
                   )
-                : Center(
+                : const Center(
                     child: CircularProgressIndicator(),
                   ),
           ),

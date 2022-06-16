@@ -6,11 +6,15 @@ import '../../../config/theme.dart';
 class CategoryItem extends StatelessWidget {
   final String text;
   final String image;
+  final Function() onTapEdit;
+  final Function() onTapDelete;
 
   const CategoryItem({
     Key? key,
     required this.text,
     required this.image,
+    required this.onTapEdit,
+    required this.onTapDelete,
   }) : super(key: key);
 
   @override
@@ -18,16 +22,11 @@ class CategoryItem extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: AppSizes.defaultMargin, vertical: 15),
+          padding: const EdgeInsets.all(15),
           child: Row(
             children: [
-              Icon(
-                Icons.menu,
-                color: AppColors.greyColor,
-              ),
-              const SizedBox(
-                width: 15,
+              SizedBox(
+                width: 10,
               ),
               Container(
                 width: 40,
@@ -54,9 +53,22 @@ class CategoryItem extends StatelessWidget {
                 style: AppTextStyle.largeText,
               ),
               const Spacer(),
-              Icon(
-                Icons.delete,
-                color: AppColors.greyColor,
+              InkWell(
+                onTap: onTapEdit,
+                child: Icon(
+                  Icons.edit,
+                  color: AppColors.greyColor,
+                ),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              InkWell(
+                onTap: onTapDelete,
+                child: Icon(
+                  Icons.delete,
+                  color: AppColors.greyColor,
+                ),
               )
             ],
           ),

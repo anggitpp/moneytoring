@@ -4,6 +4,7 @@ import 'package:moneytoring/config/route_name.dart';
 import 'package:moneytoring/config/theme.dart';
 import 'package:moneytoring/models/category.dart';
 import 'package:moneytoring/screens/category/widgets/category_item.dart';
+import 'package:moneytoring/widgets/alert_dialog.dart';
 import 'package:moneytoring/widgets/header_page.dart';
 
 import '../../cubits/cubits.dart';
@@ -41,18 +42,21 @@ class _CategoryPageState extends State<CategoryPage> {
           length: 2,
           child: Scaffold(
             floatingActionButton: FloatingActionButton(
-              child: const Icon(
-                Icons.add,
-                size: 30,
-              ),
-              onPressed: () => Navigator.pushNamed(
-                context,
-                RouteName.addCategory,
-                arguments: {
-                  'categoryType': selectedIndex,
-                },
-              ),
-            ),
+                child: const Icon(
+                  Icons.add,
+                  size: 30,
+                ),
+                onPressed: () {
+                  // context.read<AddCategoryCubit>().onPressAddButton();
+                  Navigator.pushNamed(
+                    context,
+                    RouteName.addCategory,
+                    arguments: {
+                      'categoryType': selectedIndex,
+                      'category': null,
+                    },
+                  );
+                }),
             backgroundColor: AppColors.backgroundColor,
             body: SafeArea(
               bottom: false,
@@ -117,6 +121,22 @@ class _CategoryPageState extends State<CategoryPage> {
                                   return CategoryItem(
                                     text: category.name,
                                     image: category.imagePath,
+                                    onTapEdit: () => Navigator.pushNamed(
+                                      context,
+                                      RouteName.addCategory,
+                                      arguments: {
+                                        'categoryType': selectedIndex,
+                                        'category': category,
+                                      },
+                                    ),
+                                    onTapDelete: () => showGlobalAlertConfirm(
+                                      context,
+                                      'Delete',
+                                      'Are you sure to delete this category? this action cannot be undone.',
+                                      () => context
+                                          .read<CategoryCubit>()
+                                          .deleteCategory(category.id!),
+                                    ),
                                   );
                                 }),
                               ),
@@ -131,6 +151,22 @@ class _CategoryPageState extends State<CategoryPage> {
                                   return CategoryItem(
                                     text: category.name,
                                     image: category.imagePath,
+                                    onTapEdit: () => Navigator.pushNamed(
+                                      context,
+                                      RouteName.addCategory,
+                                      arguments: {
+                                        'categoryType': selectedIndex,
+                                        'category': category,
+                                      },
+                                    ),
+                                    onTapDelete: () => showGlobalAlertConfirm(
+                                      context,
+                                      'Delete',
+                                      'Are you sure to delete this category? this action cannot be undone.',
+                                      () => context
+                                          .read<CategoryCubit>()
+                                          .deleteCategory(category.id!),
+                                    ),
                                   );
                                 }),
                               ),

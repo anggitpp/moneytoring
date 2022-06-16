@@ -19,6 +19,13 @@ class CategoryRepository {
     return id;
   }
 
+  Future<int> update(Database db, Category category) async {
+    int id = await db.update(table, category.toMap(),
+        where: 'id = ?', whereArgs: [category.id]);
+
+    return id;
+  }
+
   Future<List<Category>> getCategories(Database db) async {
     var categories = await db.query(table, orderBy: 'id DESC');
 
@@ -29,7 +36,7 @@ class CategoryRepository {
     return categoryList;
   }
 
-  Future<Category?> getCategorById(Database db, int id) async {
+  Future<Category?> getCategoryById(Database db, int id) async {
     List<Map<String, Object?>> categories =
         await db.query(table, where: 'id = ?', whereArgs: [id]);
 
@@ -37,5 +44,11 @@ class CategoryRepository {
       return Category.fromMap(categories.first);
     }
     return null;
+  }
+
+  Future<int> deleteCategory(Database db, int id) async {
+    int result = await db.delete(table, where: 'id = ?', whereArgs: [id]);
+
+    return result;
   }
 }

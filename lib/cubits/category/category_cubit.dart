@@ -26,4 +26,28 @@ class CategoryCubit extends Cubit<CategoryState> {
 
     db.close();
   }
+
+  void deleteCategory(int id) async {
+    emit(state.copyWith(categoryStatus: CategoryStatus.loading));
+    var db = await openDatabase('moneytoring.db');
+
+    await categoryRepository.deleteCategory(db, id);
+
+    emit(state.copyWith(
+        categoryStatus: CategoryStatus.loaded,
+        categories:
+            state.categories.where((element) => element.id != id).toList()));
+  }
+
+  @override
+  void onChange(Change<CategoryState> change) {
+    // TODO: implement onChange
+    super.onChange(change);
+  }
+
+  @override
+  void onError(Object error, StackTrace stackTrace) {
+    // TODO: implement onError
+    super.onError(error, stackTrace);
+  }
 }

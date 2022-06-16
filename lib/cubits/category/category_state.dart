@@ -10,7 +10,7 @@ enum CategoryStatus {
 class CategoryState extends Equatable {
   final CategoryStatus categoryStatus;
   final List<Category> categories;
-  CategoryState({
+  const CategoryState({
     required this.categoryStatus,
     required this.categories,
   });
