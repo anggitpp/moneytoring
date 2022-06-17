@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:moneytoring/config/constant.dart';
 import 'package:moneytoring/config/route_name.dart';
 import 'package:moneytoring/models/category.dart';
@@ -34,21 +37,12 @@ class _HomePageState extends State<HomePage>
     //   ),
     // );
 
-    // cekDB();
-
     tabController = TabController(
       initialIndex: selectedIndex,
       length: 2,
       vsync: this,
     );
   }
-
-  // Future<void> cekDB() async {
-  //   var db = await openDatabase('moneytoring.db');
-
-  //   var result = await db.rawQuery('SELECT * FROM categories');
-  //   print(result);
-  // }
 
   @override
   Widget build(BuildContext context) {
