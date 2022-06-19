@@ -18,8 +18,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => CategoryRepository(),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(
+          create: (context) => CategoryRepository(),
+        ),
+        RepositoryProvider(
+          create: (context) => ProductRepository(),
+        ),
+      ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider<AddCategoryCubit>(
@@ -38,6 +45,7 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<ProductCubit>(
             create: (context) => ProductCubit(
+              productRepository: ProductRepository(),
               categoryRepository: CategoryRepository(),
             ),
           ),

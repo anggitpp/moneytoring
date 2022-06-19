@@ -21,7 +21,7 @@ class _SplashPageState extends State<SplashPage> {
     cekDatabase();
 
     Timer(const Duration(seconds: 2),
-        () => Navigator.pushReplacementNamed(context, RouteName.addProduct));
+        () => Navigator.pushReplacementNamed(context, RouteName.main));
   }
 
   Future<void> cekDatabase() async {

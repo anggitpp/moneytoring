@@ -1,15 +1,15 @@
 import 'package:moneytoring/models/product.dart';
 import 'package:sqflite/sqflite.dart';
 
-class ProductCategory {
+class ProductRepository {
   final table = 'products';
 
-  Future open(Database db, String path) async {
-    db = await openDatabase(path, version: 1,
-        onCreate: (Database db, int version) async {
-      await db.execute('''
-    CREATE TABLE $table ( 
-    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+  Future<void> _createTable() async {
+    var db = await openDatabase('moneytoring.db');
+
+    await db.execute('''
+    CREATE TABLE $table (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
     category_id INTEGER,
     buying_price REAL,
@@ -18,7 +18,6 @@ class ProductCategory {
     image TEXT,
     status INTEGER)
     ''');
-    });
   }
 
   Future<int> insert(Database db, Product product) async {
@@ -35,6 +34,12 @@ class ProductCategory {
   }
 
   Future<List<Product>> getProducts(Database db) async {
+    try {
+      await db.query(table, orderBy: 'id DESC');
+    } on DatabaseException {
+      await _createTable();
+    }
+
     var products = await db.query(table, orderBy: 'id DESC');
 
     List<Product> productList = products.isNotEmpty
