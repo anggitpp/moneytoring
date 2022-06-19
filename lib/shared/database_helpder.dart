@@ -26,6 +26,7 @@ class DatabaseHelper {
   Future _onCreate(Database db, int version) async {
     await db.execute(
         'CREATE TABLE categories (id INTEGER PRIMARY KEY AUTOINCREMENT, category_type TEXT, name TEXT, image TEXT)');
+
     await db.transaction(
       (db) async {
         await db.insert(
