@@ -15,9 +15,9 @@ class CategoryState extends Equatable {
     required this.categories,
   });
 
-  factory CategoryState.initial() => CategoryState(
+  factory CategoryState.initial() => const CategoryState(
         categoryStatus: CategoryStatus.initial,
-        categories: const [],
+        categories: [],
       );
 
   CategoryState copyWith({

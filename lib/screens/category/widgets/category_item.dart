@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../config/constant.dart';
 import '../../../config/theme.dart';
 
 class CategoryItem extends StatelessWidget {
@@ -25,7 +24,7 @@ class CategoryItem extends StatelessWidget {
           padding: const EdgeInsets.all(15),
           child: Row(
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Container(
@@ -60,7 +59,7 @@ class CategoryItem extends StatelessWidget {
                   color: AppColors.greyColor,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               InkWell(

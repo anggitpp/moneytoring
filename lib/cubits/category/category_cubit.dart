@@ -38,16 +38,4 @@ class CategoryCubit extends Cubit<CategoryState> {
         categories:
             state.categories.where((element) => element.id != id).toList()));
   }
-
-  @override
-  void onChange(Change<CategoryState> change) {
-    // TODO: implement onChange
-    super.onChange(change);
-  }
-
-  @override
-  void onError(Object error, StackTrace stackTrace) {
-    // TODO: implement onError
-    super.onError(error, stackTrace);
-  }
 }

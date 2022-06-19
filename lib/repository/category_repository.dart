@@ -1,5 +1,4 @@
 import 'package:moneytoring/models/category.dart';
-import 'package:moneytoring/shared/database_helpder.dart';
 import 'package:sqflite/sqflite.dart';
 
 class CategoryRepository {

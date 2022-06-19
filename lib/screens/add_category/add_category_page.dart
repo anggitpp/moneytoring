@@ -31,7 +31,6 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (widget.arguments['category'] != null) {
       Category category = widget.arguments['category'];

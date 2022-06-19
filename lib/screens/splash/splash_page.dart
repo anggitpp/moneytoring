@@ -1,11 +1,8 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:moneytoring/config/route_name.dart';
 import 'package:moneytoring/shared/database_helpder.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../../../config/theme.dart';
 
@@ -24,7 +21,7 @@ class _SplashPageState extends State<SplashPage> {
     cekDatabase();
 
     Timer(const Duration(seconds: 2),
-        () => Navigator.pushReplacementNamed(context, RouteName.main));
+        () => Navigator.pushReplacementNamed(context, RouteName.addProduct));
   }
 
   Future<void> cekDatabase() async {

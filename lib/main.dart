@@ -36,6 +36,11 @@ class MyApp extends StatelessWidget {
               categoryRepository: CategoryRepository(),
             ),
           ),
+          BlocProvider<ProductCubit>(
+            create: (context) => ProductCubit(
+              categoryRepository: CategoryRepository(),
+            ),
+          ),
         ],
         child: MaterialApp(
           title: 'Moneytoring',

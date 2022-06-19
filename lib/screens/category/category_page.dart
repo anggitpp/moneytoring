@@ -3,11 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moneytoring/config/route_name.dart';
 import 'package:moneytoring/config/theme.dart';
 import 'package:moneytoring/models/category.dart';
-import 'package:moneytoring/screens/category/widgets/category_item.dart';
 import 'package:moneytoring/screens/category/widgets/category_page_header.dart';
 import 'package:moneytoring/screens/category/widgets/list_category.dart';
-import 'package:moneytoring/widgets/alert_dialog.dart';
-import 'package:moneytoring/widgets/header_page.dart';
 
 import '../../cubits/cubits.dart';
 
