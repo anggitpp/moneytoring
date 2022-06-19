@@ -44,7 +44,7 @@ class ListIconCategory extends StatelessWidget {
                       width: 40,
                       height: 40,
                       child: Image.asset(
-                        'assets/icon/$icon',
+                        'assets/category/$icon',
                         fit: BoxFit.cover,
                       ),
                     ),

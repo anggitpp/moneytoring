@@ -115,7 +115,8 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                                       ? CategoryType.income
                                       : CategoryType.expenses,
                               name: nameController.text,
-                              imagePath: 'assets/icon/${state.selectedIcon}',
+                              imagePath:
+                                  'assets/category/${state.selectedIcon}',
                             );
                             widget.arguments['category'] == null
                                 ? context

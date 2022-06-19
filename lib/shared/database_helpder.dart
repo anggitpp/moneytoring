@@ -33,7 +33,7 @@ class DatabaseHelper {
           const Category(
                   categoryType: CategoryType.income,
                   name: 'Aquarium Kaca',
-                  imagePath: 'assets/icon/icon-aquarium.png')
+                  imagePath: 'assets/category/icon-aquarium.png')
               .toMap(),
         );
         await db.insert(
@@ -41,7 +41,7 @@ class DatabaseHelper {
           const Category(
                   categoryType: CategoryType.income,
                   name: 'Smart Device',
-                  imagePath: 'assets/icon/icon-bulb.png')
+                  imagePath: 'assets/category/icon-bulb.png')
               .toMap(),
         );
         await db.insert(
@@ -49,7 +49,7 @@ class DatabaseHelper {
           const Category(
                   categoryType: CategoryType.income,
                   name: 'Electronic',
-                  imagePath: 'assets/icon/icon-electronic.png')
+                  imagePath: 'assets/category/icon-electronic.png')
               .toMap(),
         );
         await db.insert(
@@ -57,7 +57,7 @@ class DatabaseHelper {
           const Category(
                   categoryType: CategoryType.expenses,
                   name: 'Aquarium Kaca',
-                  imagePath: 'assets/icon/icon-aquarium.png')
+                  imagePath: 'assets/category/icon-aquarium.png')
               .toMap(),
         );
         await db.insert(
@@ -65,7 +65,7 @@ class DatabaseHelper {
           const Category(
                   categoryType: CategoryType.expenses,
                   name: 'Smart Device',
-                  imagePath: 'assets/icon/icon-bulb.png')
+                  imagePath: 'assets/category/icon-bulb.png')
               .toMap(),
         );
         await db.insert(
@@ -73,7 +73,7 @@ class DatabaseHelper {
           const Category(
                   categoryType: CategoryType.expenses,
                   name: 'Electronic',
-                  imagePath: 'assets/icon/icon-electronic.png')
+                  imagePath: 'assets/category/icon-electronic.png')
               .toMap(),
         );
       },
