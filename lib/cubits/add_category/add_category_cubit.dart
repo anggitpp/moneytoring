@@ -29,7 +29,6 @@ class AddCategoryCubit extends Cubit<AddCategoryState> {
   }
 
   void updateCategory(Category category) async {
-    print(category);
     var db = await openDatabase('moneytoring.db');
 
     emit(state.copyWith(addCategoryStatus: AddCategoryStatus.submitting));
