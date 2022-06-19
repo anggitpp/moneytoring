@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../config/theme.dart';
 
 class CreateTextField extends StatelessWidget {
   final String label;
   final String textHint;
+  final TextEditingController controller;
+  final bool isNumber;
+  final int? maxLength;
   const CreateTextField({
     Key? key,
     required this.label,
     required this.textHint,
+    required this.controller,
+    this.isNumber = false,
+    this.maxLength,
   }) : super(key: key);
 
   @override
@@ -24,7 +31,17 @@ class CreateTextField extends StatelessWidget {
           height: 6,
         ),
         TextField(
+          keyboardType: isNumber ? TextInputType.number : TextInputType.text,
+          controller: controller,
+          textAlign: isNumber ? TextAlign.end : TextAlign.start,
+          maxLength: maxLength,
+          inputFormatters: isNumber
+              ? [
+                  FilteringTextInputFormatter.digitsOnly,
+                ]
+              : [],
           decoration: InputDecoration(
+            counterText: '',
             hintText: textHint,
             hintStyle: AppTextStyle.greyMediumText,
             contentPadding: const EdgeInsets.all(17),
