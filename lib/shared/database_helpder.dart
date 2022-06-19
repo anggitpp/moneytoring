@@ -76,15 +76,6 @@ class DatabaseHelper {
                   imagePath: 'assets/icon/icon-electronic.png')
               .toMap(),
         );
-
-        await db.insert(
-          'categories',
-          const Category(
-                  categoryType: CategoryType.expenses,
-                  name: 'Aquarium Kaca',
-                  imagePath: 'assets/icon/icon-aquarium.png')
-              .toMap(),
-        );
       },
     );
   }
