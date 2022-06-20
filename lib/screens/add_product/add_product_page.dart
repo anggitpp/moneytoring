@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moneytoring/config/route_name.dart';
 import 'package:moneytoring/cubits/cubits.dart';
+import 'package:moneytoring/models/product.dart';
 import 'package:moneytoring/screens/add_product/widgets/add_product_photo.dart';
 import 'package:moneytoring/widgets/button_submit.dart';
 import 'package:moneytoring/widgets/create_text_field.dart';
@@ -19,10 +20,11 @@ class AddProductPage extends StatefulWidget {
 }
 
 class _AddProductPageState extends State<AddProductPage> {
-  final TextEditingController _productController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _buyingController = TextEditingController();
   final TextEditingController _sellingController = TextEditingController();
   final TextEditingController _stockController = TextEditingController();
+  late int _categoryId;
 
   @override
   void initState() {
@@ -39,7 +41,9 @@ class _AddProductPageState extends State<AddProductPage> {
         bottom: false,
         child: BlocConsumer<ProductCubit, ProductState>(
           listener: (context, state) {
-            // TODO: implement listener
+            state.addProductStatus == AddProductStatus.success
+                ? Navigator.pop(context)
+                : null;
           },
           builder: (context, state) {
             return ListView(
@@ -78,7 +82,7 @@ class _AddProductPageState extends State<AddProductPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CreateTextField(
-                        controller: _productController,
+                        controller: _nameController,
                         label: 'Product Name',
                         textHint: 'Type your product name',
                       ),
@@ -114,7 +118,9 @@ class _AddProductPageState extends State<AddProductPage> {
                             child: Text(value.name),
                           );
                         }).toList(),
-                        onChanged: (_) {},
+                        onChanged: (_) {
+                          _categoryId = _!.id!;
+                        },
                       ),
                       SizedBox(
                         height: 10,
@@ -147,7 +153,28 @@ class _AddProductPageState extends State<AddProductPage> {
                       SizedBox(
                         height: 20,
                       ),
-                      ButtonSubmit('Save Product'),
+                      state.addProductStatus != AddProductStatus.submitting
+                          ? ButtonSubmit(
+                              'Save Product',
+                              onPressed: () => context
+                                  .read<ProductCubit>()
+                                  .insertProduct(
+                                    Product(
+                                      name: _nameController.text,
+                                      categoryId: _categoryId,
+                                      buyingPrice:
+                                          double.parse(_buyingController.text),
+                                      sellingPrice:
+                                          double.parse(_sellingController.text),
+                                      stock: int.parse(_stockController.text),
+                                      imagePath: state.imagePath,
+                                      status: 1,
+                                    ),
+                                  ),
+                            )
+                          : Center(
+                              child: CircularProgressIndicator(),
+                            ),
                     ],
                   ),
                 ),

@@ -1,11 +1,20 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import 'package:moneytoring/models/product.dart';
 
 import '../../../config/constant.dart';
 import '../../../config/theme.dart';
 
 class ProductItem extends StatelessWidget {
-  const ProductItem({Key? key}) : super(key: key);
+  const ProductItem({
+    Key? key,
+    required this.product,
+  }) : super(key: key);
+
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +30,16 @@ class ProductItem extends StatelessWidget {
                 width: 85,
                 height: 85,
                 child: Card(
+                  color: Colors.transparent,
                   elevation: 4,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4)),
-                  child: const Image(
-                    image: AssetImage('assets/images/bulb.jpeg'),
-                    fit: BoxFit.cover,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image(
+                      image: FileImage(File(product.imagePath)),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -34,24 +47,26 @@ class ProductItem extends StatelessWidget {
                 width: 10,
               ),
               Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  Container(
                     width: AppSizes.phoneWidth(context) -
                         95 -
                         AppSizes.defaultMargin * 2,
                     child: Text(
-                      'Bardi Smart Bulb 9W With RGB 16 Million Color',
+                      product.name,
                       maxLines: 2,
                       style: AppTextStyle.smallText
                           .copyWith(fontWeight: FontWeight.w500),
                     ),
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Text(
                     NumberFormat.currency(
                             locale: 'id_ID', symbol: 'Rp. ', decimalDigits: 0)
-                        .format(99900),
+                        .format(product.sellingPrice),
                     style: AppTextStyle.smallText,
                   ),
                   SizedBox(
@@ -60,10 +75,10 @@ class ProductItem extends StatelessWidget {
                         AppSizes.defaultMargin * 2,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          'Stock: 10',
+                          'Stock: ${product.stock}',
                           style: AppTextStyle.smallText,
                         ),
                         Container(

@@ -18,7 +18,8 @@ class CategoryPageHeader extends StatelessWidget {
       children: [
         HeaderPage(
           InkWell(
-              onTap: () => Navigator.pushNamed(context, RouteName.home),
+              onTap: () =>
+                  Navigator.pushReplacementNamed(context, RouteName.main),
               child: const Icon(Icons.arrow_back)),
           Text(
             'Category',

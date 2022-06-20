@@ -2,7 +2,7 @@ part of 'product_cubit.dart';
 
 enum AddProductStatus {
   initial,
-  loading,
+  submitting,
   success,
   error,
 }

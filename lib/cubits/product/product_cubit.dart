@@ -4,11 +4,12 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:moneytoring/repository/repositories.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../models/category.dart';
 import '../../models/product.dart';
-import '../../repository/category_repository.dart';
+import 'package:path/path.dart';
 
 part 'product_state.dart';
 
@@ -53,8 +54,29 @@ class ProductCubit extends Cubit<ProductState> {
 
     emit(state.copyWith(
         productStatus: ProductStatus.loaded, products: products));
+  }
 
-    db.close();
+  void insertProduct(Product product) async {
+    var db = await openDatabase('moneytoring.db');
+
+    emit(state.copyWith(addProductStatus: AddProductStatus.submitting));
+
+    try {
+      await db.delete('products');
+
+      await productRepository.insert(db, product);
+
+      Directory duplicateFilePath = await getApplicationDocumentsDirectory();
+      String duplicateFileName = duplicateFilePath.path;
+
+      var fileName = basename(image!.path);
+      await image!.copy('$duplicateFileName/$fileName');
+
+      emit(state.copyWith(addProductStatus: AddProductStatus.success));
+    } catch (e) {
+      print(e);
+      emit(state.copyWith(addProductStatus: AddProductStatus.error));
+    }
   }
 
   Future getImage() async {

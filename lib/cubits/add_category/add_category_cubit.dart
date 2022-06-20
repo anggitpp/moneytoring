@@ -56,10 +56,4 @@ class AddCategoryCubit extends Cubit<AddCategoryState> {
           selectedIcon: 'icon-electronic.png'),
     );
   }
-
-  // @override
-  // Future<void> close() {
-  //   // dispose
-  //   return super.close();
-  // }
 }

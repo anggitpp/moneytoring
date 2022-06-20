@@ -74,12 +74,15 @@ class _ProductPageState extends State<ProductPage> {
             ),
             BlocBuilder<ProductCubit, ProductState>(
               builder: (context, state) {
+                // print(state);
                 return state.productStatus != ProductStatus.loading
                     ? ListView.builder(
                         shrinkWrap: true,
                         itemCount: state.products.length,
                         itemBuilder: (context, index) {
-                          return ProductItem();
+                          return ProductItem(
+                            product: state.products[index],
+                          );
                         },
                       )
                     : Center(

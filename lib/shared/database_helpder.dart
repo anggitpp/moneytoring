@@ -13,14 +13,17 @@ class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
   static Database? _database;
-  Future<Database> get database async => _database ??= await _initDatabase();
+  Future<Database> get database async =>
+      _database ??= await initializeDatabase();
 
-  Future<Database> _initDatabase() async {
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-
-    String path = join(documentsDirectory.path, databaseApplication);
-
-    return await openDatabase(path, version: 1, onCreate: _onCreate);
+  Future<Database> initializeDatabase() async {
+    //Get the directory path for both Android and IOS to store Database
+    String databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, 'moneytoring.db');
+    //Open/create the database at the given path
+    var wifiSystemDatabase =
+        await openDatabase(path, version: 1, onCreate: _onCreate);
+    return wifiSystemDatabase;
   }
 
   Future _onCreate(Database db, int version) async {
