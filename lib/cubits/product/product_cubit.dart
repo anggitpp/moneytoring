@@ -74,7 +74,6 @@ class ProductCubit extends Cubit<ProductState> {
 
       emit(state.copyWith(addProductStatus: AddProductStatus.success));
     } catch (e) {
-      print(e);
       emit(state.copyWith(addProductStatus: AddProductStatus.error));
     }
   }

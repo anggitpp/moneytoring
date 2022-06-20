@@ -49,7 +49,7 @@ class ProductItem extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
+                  SizedBox(
                     width: AppSizes.phoneWidth(context) -
                         95 -
                         AppSizes.defaultMargin * 2,
@@ -60,7 +60,7 @@ class ProductItem extends StatelessWidget {
                           .copyWith(fontWeight: FontWeight.w500),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(

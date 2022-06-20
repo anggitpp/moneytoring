@@ -27,7 +27,6 @@ class ProductState extends Equatable {
   final ProductStatus productStatus;
   final List<Category> categories;
   final List<Product> products;
-  //TODO :: CHECK IF THIS IS NEEDED
   final String imagePath;
   final bool isLoadedImage;
   const ProductState({

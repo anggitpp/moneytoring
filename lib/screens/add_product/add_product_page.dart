@@ -28,7 +28,6 @@ class _AddProductPageState extends State<AddProductPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     context.read<ProductCubit>().loadCategories();
   }
@@ -86,7 +85,7 @@ class _AddProductPageState extends State<AddProductPage> {
                         label: 'Product Name',
                         textHint: 'Type your product name',
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Text(
@@ -122,7 +121,7 @@ class _AddProductPageState extends State<AddProductPage> {
                           _categoryId = _!.id!;
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       CreateTextField(
@@ -131,7 +130,7 @@ class _AddProductPageState extends State<AddProductPage> {
                         textHint: 'Type your buying price',
                         isNumber: true,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       CreateTextField(
@@ -140,7 +139,7 @@ class _AddProductPageState extends State<AddProductPage> {
                         textHint: 'Type your selling price',
                         isNumber: true,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       CreateTextField(
@@ -150,7 +149,7 @@ class _AddProductPageState extends State<AddProductPage> {
                         isNumber: true,
                         maxLength: 3,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       state.addProductStatus != AddProductStatus.submitting
@@ -172,7 +171,7 @@ class _AddProductPageState extends State<AddProductPage> {
                                     ),
                                   ),
                             )
-                          : Center(
+                          : const Center(
                               child: CircularProgressIndicator(),
                             ),
                     ],

@@ -1,11 +1,6 @@
-import 'dart:io';
-
 import 'package:moneytoring/models/category.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-
-import '../config/constant.dart';
 
 class DatabaseHelper {
   DatabaseHelper._privateConstructor();
@@ -29,17 +24,6 @@ class DatabaseHelper {
   Future _onCreate(Database db, int version) async {
     await db.execute(
         'CREATE TABLE categories (id INTEGER PRIMARY KEY AUTOINCREMENT, category_type TEXT, name TEXT, image TEXT)');
-    // await db.execute('''
-    // CREATE TABLE products (
-    // id INTEGER PRIMARY KEY AUTOINCREMENT,
-    // name TEXT,
-    // category_id INTEGER,
-    // buying_price REAL,
-    // selling_price REAL,
-    // stock INTEGER,
-    // image TEXT,
-    // status INTEGER)
-    // ''');
 
     await db.transaction(
       (db) async {

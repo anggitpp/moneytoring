@@ -85,7 +85,7 @@ class _ProductPageState extends State<ProductPage> {
                           );
                         },
                       )
-                    : Center(
+                    : const Center(
                         child: CircularProgressIndicator(),
                       );
               },
