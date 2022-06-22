@@ -1,3 +1,4 @@
+import 'package:moneytoring/config/constant.dart';
 import 'package:moneytoring/models/category.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -14,7 +15,7 @@ class DatabaseHelper {
   Future<Database> initializeDatabase() async {
     //Get the directory path for both Android and IOS to store Database
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'moneytoring.db');
+    String path = join(databasesPath, databaseApplication);
     //Open/create the database at the given path
     var wifiSystemDatabase =
         await openDatabase(path, version: 1, onCreate: _onCreate);

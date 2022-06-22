@@ -27,7 +27,15 @@ class _ProductPageState extends State<ProductPage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         heroTag: "btnProduct",
-        onPressed: () => Navigator.pushNamed(context, RouteName.addProduct),
+        onPressed: () {
+          Navigator.pushNamed(
+            context,
+            RouteName.addProduct,
+            arguments: {
+              'id': null,
+            },
+          );
+        },
         backgroundColor: AppColors.yellowColor,
         child: const Icon(
           Icons.add,
@@ -74,9 +82,9 @@ class _ProductPageState extends State<ProductPage> {
             ),
             BlocBuilder<ProductCubit, ProductState>(
               builder: (context, state) {
-                // print(state);
                 return state.productStatus != ProductStatus.loading
                     ? ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: state.products.length,
                         itemBuilder: (context, index) {

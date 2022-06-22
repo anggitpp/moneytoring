@@ -14,7 +14,8 @@ final routes = {
   RouteName.splash: (context) => const SplashPage(),
   RouteName.main: (context) => const MainPage(),
   RouteName.home: (context) => const HomePage(),
-  RouteName.addProduct: (context) => const AddProductPage(),
+  RouteName.addProduct: (context) => AddProductPage(
+      arguments: ModalRoute.of(context)!.settings.arguments as Map),
   RouteName.transaction: (context) => const TransactionPage(),
   RouteName.transactionDetail: (context) => const TransactionDetailPage(),
   RouteName.category: (context) => const CategoryPage(),

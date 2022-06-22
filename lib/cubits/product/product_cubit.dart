@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:moneytoring/config/constant.dart';
 import 'package:moneytoring/repository/repositories.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -31,7 +32,7 @@ class ProductCubit extends Cubit<ProductState> {
 
   void loadCategories() async {
     emit(state.copyWith(productCategoryStatus: ProductCategoryStatus.loading));
-    var db = await openDatabase('moneytoring.db');
+    var db = await openDatabase(databaseApplication);
 
     List<Category> categories = await categoryRepository.getCategories(db).then(
         (value) => value
@@ -48,7 +49,7 @@ class ProductCubit extends Cubit<ProductState> {
   void loadProducts() async {
     emit(state.copyWith(productStatus: ProductStatus.loading));
 
-    var db = await openDatabase('moneytoring.db');
+    var db = await openDatabase(databaseApplication);
 
     List<Product> products = await productRepository.getProducts(db);
 
@@ -56,14 +57,27 @@ class ProductCubit extends Cubit<ProductState> {
         productStatus: ProductStatus.loaded, products: products));
   }
 
+  void loadProduct(int id) async {
+    try {
+      emit(state.copyWith(addProductStatus: AddProductStatus.loading));
+
+      var db = await openDatabase(databaseApplication);
+
+      Product? product = await productRepository.getProductById(db, id);
+
+      emit(state.copyWith(
+          addProductStatus: AddProductStatus.loaded, product: product));
+    } catch (e) {
+      emit(state.copyWith(addProductStatus: AddProductStatus.error));
+    }
+  }
+
   void insertProduct(Product product) async {
-    var db = await openDatabase('moneytoring.db');
+    var db = await openDatabase(databaseApplication);
 
     emit(state.copyWith(addProductStatus: AddProductStatus.submitting));
 
     try {
-      await db.delete('products');
-
       await productRepository.insert(db, product);
 
       Directory duplicateFilePath = await getApplicationDocumentsDirectory();
@@ -72,9 +86,49 @@ class ProductCubit extends Cubit<ProductState> {
       var fileName = basename(image!.path);
       await image!.copy('$duplicateFileName/$fileName');
 
-      emit(state.copyWith(addProductStatus: AddProductStatus.success));
+      List<Product> products = await productRepository.getProducts(db);
+
+      emit(state.copyWith(
+          addProductStatus: AddProductStatus.success,
+          products: products,
+          isLoadedImage: false,
+          imagePath: ''));
     } catch (e) {
       emit(state.copyWith(addProductStatus: AddProductStatus.error));
+    }
+  }
+
+  void deleteProduct(int id) async {
+    try {
+      emit(state.copyWith(addProductStatus: AddProductStatus.submitting));
+      var db = await openDatabase(databaseApplication);
+
+      Product? product = await productRepository.getProductById(db, id);
+
+      await deleteFile(File(product!.imagePath));
+
+      await productRepository.deleteProduct(db, id);
+      List<Product> products = await productRepository.getProducts(db);
+
+      emit(
+        state.copyWith(
+            addProductStatus: AddProductStatus.success,
+            products: products,
+            isLoadedImage: false,
+            imagePath: ''),
+      );
+    } catch (e) {
+      emit(state.copyWith(addProductStatus: AddProductStatus.error));
+    }
+  }
+
+  Future<void> deleteFile(File file) async {
+    try {
+      if (await file.exists()) {
+        await file.delete();
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -84,5 +138,13 @@ class ProductCubit extends Cubit<ProductState> {
 
     image = File(pickedImage!.path); // won't have any error now
     emit(state.copyWith(imagePath: pickedImage.path));
+  }
+
+  void reset() {
+    emit(state.copyWith(
+      productStatus: ProductStatus.initial,
+      productCategoryStatus: ProductCategoryStatus.initial,
+      addProductStatus: AddProductStatus.initial,
+    ));
   }
 }
