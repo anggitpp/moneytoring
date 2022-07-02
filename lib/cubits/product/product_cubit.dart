@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
@@ -128,7 +129,7 @@ class ProductCubit extends Cubit<ProductState> {
         await file.delete();
       }
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
   }
 

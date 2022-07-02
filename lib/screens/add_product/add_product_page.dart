@@ -31,7 +31,7 @@ class _AddProductPageState extends State<AddProductPage> {
   final TextEditingController _buyingController = TextEditingController();
   final TextEditingController _sellingController = TextEditingController();
   final TextEditingController _stockController = TextEditingController();
-  late int _categoryId;
+  int? _categoryId;
   int? productId;
 
   @override
@@ -209,22 +209,26 @@ class _AddProductPageState extends State<AddProductPage> {
                                     AddProductStatus.submitting
                                 ? ButtonSubmit(
                                     'Save Product',
-                                    onPressed: () => context
-                                        .read<ProductCubit>()
-                                        .insertProduct(
-                                          Product(
-                                            name: _nameController.text,
-                                            categoryId: _categoryId,
-                                            buyingPrice: double.parse(
-                                                _buyingController.text),
-                                            sellingPrice: double.parse(
-                                                _sellingController.text),
-                                            stock: int.parse(
-                                                _stockController.text),
-                                            imagePath: state.imagePath,
-                                            status: 1,
-                                          ),
-                                        ),
+                                    onPressed: () {
+                                      context
+                                          .read<ProductCubit>()
+                                          .insertProduct(
+                                            Product(
+                                              name: _nameController.text,
+                                              categoryId: _categoryId == null
+                                                  ? state.categories.first.id!
+                                                  : _categoryId!,
+                                              buyingPrice: double.parse(
+                                                  _buyingController.text),
+                                              sellingPrice: double.parse(
+                                                  _sellingController.text),
+                                              stock: int.parse(
+                                                  _stockController.text),
+                                              imagePath: state.imagePath,
+                                              status: 1,
+                                            ),
+                                          );
+                                    },
                                   )
                                 : const Center(
                                     child: CircularProgressIndicator(),
@@ -234,7 +238,7 @@ class _AddProductPageState extends State<AddProductPage> {
                       ),
                     ],
                   )
-                : Center(
+                : const Center(
                     child: CircularProgressIndicator(),
                   );
           },

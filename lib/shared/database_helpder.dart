@@ -17,9 +17,9 @@ class DatabaseHelper {
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, databaseApplication);
     //Open/create the database at the given path
-    var wifiSystemDatabase =
+    var systemDatabase =
         await openDatabase(path, version: 1, onCreate: _onCreate);
-    return wifiSystemDatabase;
+    return systemDatabase;
   }
 
   Future _onCreate(Database db, int version) async {
