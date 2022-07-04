@@ -1,22 +1,35 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:moneytoring/models/transaction_item.dart';
 
 import '../../../config/theme.dart';
+import '../../../models/product.dart';
 
-class TransactionItem extends StatelessWidget {
-  const TransactionItem({Key? key}) : super(key: key);
+class TransactionItemWidget extends StatelessWidget {
+  final TransactionItem transactionItem;
+  final Function()? onPressAdd;
+  final Function()? onPressRemove;
+  const TransactionItemWidget({
+    Key? key,
+    required this.transactionItem,
+    this.onPressAdd,
+    this.onPressRemove,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
+        SizedBox(
           width: 40,
           height: 40,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            image: const DecorationImage(
-              image: AssetImage('assets/images/aquarium.jpeg'),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image(
+              image: FileImage(File(transactionItem.product.imagePath)),
+              fit: BoxFit.cover,
             ),
           ),
         ),
@@ -27,38 +40,41 @@ class TransactionItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Aquarium M',
+              transactionItem.product.name,
               style: AppTextStyle.mediumText,
             ),
             Text(
               NumberFormat.currency(
                       locale: 'id_ID', symbol: '', decimalDigits: 0)
-                  .format(50000),
+                  .format(transactionItem.product.sellingPrice),
               style: AppTextStyle.greySmallText,
             ),
           ],
         ),
         const Spacer(),
-        Container(
-          width: 25,
-          height: 25,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            border: Border.all(
-              color: AppColors.lightGreyColor,
+        GestureDetector(
+          onTap: onPressRemove,
+          child: Container(
+            width: 25,
+            height: 25,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              border: Border.all(
+                color: AppColors.lightGreyColor,
+              ),
             ),
-          ),
-          alignment: Alignment.center,
-          child: const Icon(
-            Icons.remove,
-            size: 20,
+            alignment: Alignment.center,
+            child: const Icon(
+              Icons.remove,
+              size: 20,
+            ),
           ),
         ),
         const SizedBox(
           width: 10,
         ),
         Text(
-          '3',
+          '${transactionItem.amount}',
           style: AppTextStyle.veryLargeText.copyWith(
             fontSize: 20,
           ),
@@ -66,19 +82,22 @@ class TransactionItem extends StatelessWidget {
         const SizedBox(
           width: 10,
         ),
-        Container(
-          width: 25,
-          height: 25,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            border: Border.all(
-              color: AppColors.lightGreyColor,
+        GestureDetector(
+          onTap: onPressAdd,
+          child: Container(
+            width: 25,
+            height: 25,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              border: Border.all(
+                color: AppColors.lightGreyColor,
+              ),
             ),
-          ),
-          alignment: Alignment.center,
-          child: const Icon(
-            Icons.add,
-            size: 20,
+            alignment: Alignment.center,
+            child: const Icon(
+              Icons.add,
+              size: 20,
+            ),
           ),
         ),
       ],

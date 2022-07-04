@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
           BlocProvider<TransactionCubit>(
             create: (context) => TransactionCubit(
               categoryRepository: CategoryRepository(),
+              productRepository: ProductRepository(),
             ),
           ),
           BlocProvider<ProductCubit>(

@@ -84,7 +84,7 @@ class _ProductPageState extends State<ProductPage> {
               builder: (context, state) {
                 return state.productStatus != ProductStatus.loading
                     ? ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: state.products.length,
                         itemBuilder: (context, index) {
