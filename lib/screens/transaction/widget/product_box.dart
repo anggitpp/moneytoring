@@ -19,7 +19,7 @@ class ProductBox extends StatelessWidget {
     return GestureDetector(
       onTap: onPress,
       child: Container(
-        width: 70,
+        width: 80,
         height: 102,
         alignment: Alignment.centerLeft,
         child: Column(

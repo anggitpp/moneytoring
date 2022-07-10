@@ -73,10 +73,14 @@ class TransactionItemWidget extends StatelessWidget {
         const SizedBox(
           width: 10,
         ),
-        Text(
-          '${transactionItem.amount}',
-          style: AppTextStyle.veryLargeText.copyWith(
-            fontSize: 20,
+        SizedBox(
+          width: 20,
+          child: Text(
+            '${transactionItem.amount}',
+            style: AppTextStyle.veryLargeText.copyWith(
+              fontSize: 20,
+            ),
+            textAlign: TextAlign.center,
           ),
         ),
         const SizedBox(

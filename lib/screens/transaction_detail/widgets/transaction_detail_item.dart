@@ -1,47 +1,65 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import 'package:moneytoring/models/transaction_item.dart';
 
 import '../../../config/theme.dart';
 
 class TransactionDetailItem extends StatelessWidget {
-  const TransactionDetailItem({Key? key}) : super(key: key);
+  final TransactionItem transactionItem;
+  const TransactionDetailItem(this.transactionItem, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
-        Container(
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            image: const DecorationImage(
-                image: AssetImage('assets/images/aquarium.jpeg'),
-                fit: BoxFit.cover),
-          ),
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        Row(
           children: [
-            Text(
-              'Aquarium M',
-              style: AppTextStyle.mediumText,
+            SizedBox(
+              width: 40,
+              height: 40,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image(
+                  image: FileImage(File(transactionItem.product.imagePath)),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
+            const SizedBox(
+              width: 10,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  transactionItem.product.name,
+                  style: AppTextStyle.mediumText,
+                ),
+                Text(
+                  NumberFormat.currency(
+                          locale: 'id_ID', symbol: '', decimalDigits: 0)
+                      .format(transactionItem.product.sellingPrice),
+                  style: AppTextStyle.greySmallText,
+                ),
+              ],
+            ),
+            const Spacer(),
             Text(
               NumberFormat.currency(
-                      locale: 'id_ID', symbol: '', decimalDigits: 0)
-                  .format(50000),
-              style: AppTextStyle.greySmallText,
+                          locale: 'id_ID', symbol: 'Rp. ', decimalDigits: 0)
+                      .format(transactionItem.product.sellingPrice *
+                          transactionItem.amount) +
+                  ' (${transactionItem.amount})',
+              style: AppTextStyle.mediumText,
             ),
           ],
         ),
-        const Spacer(),
-        Text(
-          '2 items',
-          style: AppTextStyle.mediumText,
+        SizedBox(
+          height: 10,
         ),
       ],
     );

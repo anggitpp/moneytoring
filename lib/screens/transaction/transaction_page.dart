@@ -110,7 +110,7 @@ class _TransactionPageState extends State<TransactionPage> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: AppSizes.defaultMargin),
                         child: Wrap(
-                          spacing: 10,
+                          spacing: 5,
                           runSpacing: 10,
                           children: state.products
                               .map(
@@ -165,6 +165,12 @@ class _TransactionPageState extends State<TransactionPage> {
                                     AppSizes.defaultMargin,
                                     10),
                                 child: TransactionItemWidget(
+                                  onPressAdd: () => context
+                                      .read<TransactionCubit>()
+                                      .onPressAddTransactionItem(e),
+                                  onPressRemove: () => context
+                                      .read<TransactionCubit>()
+                                      .onPressRemoveTransactionItem(e),
                                   transactionItem: e,
                                 ),
                               ),
@@ -175,8 +181,8 @@ class _TransactionPageState extends State<TransactionPage> {
                         height: 15,
                       ),
                       GestureDetector(
-                        onTap: () => Navigator.pushReplacementNamed(
-                            context, RouteName.main),
+                        onTap: () => Navigator.pushNamed(
+                            context, RouteName.transactionDetail),
                         child: Container(
                           width: 50,
                           height: 50,
