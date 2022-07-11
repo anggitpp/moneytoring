@@ -54,6 +54,20 @@ class TransactionCubit extends Cubit<TransactionState> {
     );
   }
 
+  void loadTransactions() async {
+    emit(state.copyWith(transactionStatus: TransactionStatus.loading));
+
+    var db = await openDatabase('moneytoring.db');
+
+    List<TransactionModel> transactions =
+        await transactionRepository.getTransactions(db);
+    emit(
+      state.copyWith(
+          transactionStatus: TransactionStatus.loaded,
+          transactions: transactions),
+    );
+  }
+
   void onPressCategory(Category category) {
     emit(state.copyWith(selectedCategory: category));
   }
@@ -141,25 +155,24 @@ class TransactionCubit extends Cubit<TransactionState> {
     emit(state.copyWith(totalPrice: totalPrice));
   }
 
-  void insertTransaction(TransactionModel transactionModel,
-      TransactionDetail transactionDetail) async {
+  void insertTransaction(Map<String, dynamic> transactionData,
+      List<TransactionItem> detailDatas) async {
     var db = await openDatabase(databaseApplication);
 
     emit(state.copyWith(transactionStatus: TransactionStatus.submitting));
 
     try {
-      await transactionRepository.insert(
-          db, transactionModel, transactionDetail);
+      await transactionRepository.insert(db, transactionData);
 
-      List<TransactionCubit> products = await productRepository.getProducts(db);
+      List<TransactionModel> transactions =
+          await transactionRepository.getTransactions(db);
 
       emit(state.copyWith(
-          addProductStatus: AddProductStatus.success,
-          products: products,
-          isLoadedImage: false,
-          imagePath: ''));
+          transactionStatus: TransactionStatus.finish,
+          transactions: transactions));
     } catch (e) {
-      emit(state.copyWith(addProductStatus: AddProductStatus.error));
+      print(e);
+      // emit(state.copyWith(addProductStatus: AddProductStatus.error));
     }
   }
 }

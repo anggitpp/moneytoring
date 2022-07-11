@@ -16,6 +16,8 @@ enum TransactionProductStatus {
 
 enum TransactionStatus {
   initial,
+  loading,
+  loaded,
   submitting,
   finish,
   error,
@@ -27,6 +29,7 @@ class TransactionState extends Equatable {
   final List<Category> categories;
   final List<Product> products;
   final List<TransactionItem> transactionItems;
+  final List<TransactionModel> transactions;
   final Category? selectedCategory;
   final double totalPrice;
   final TransactionStatus transactionStatus;
@@ -36,6 +39,7 @@ class TransactionState extends Equatable {
     required this.categories,
     required this.products,
     required this.transactionItems,
+    required this.transactions,
     this.selectedCategory,
     required this.totalPrice,
     required this.transactionStatus,
@@ -47,6 +51,7 @@ class TransactionState extends Equatable {
       transactionProductStatus: TransactionProductStatus.initial,
       transactionStatus: TransactionStatus.initial,
       categories: [],
+      transactions: [],
       products: [],
       transactionItems: [],
       totalPrice: 0,
@@ -59,6 +64,7 @@ class TransactionState extends Equatable {
     List<Category>? categories,
     List<Product>? products,
     List<TransactionItem>? transactionItems,
+    List<TransactionModel>? transactions,
     Category? selectedCategory,
     double? totalPrice,
     TransactionStatus? transactionStatus,
@@ -71,6 +77,7 @@ class TransactionState extends Equatable {
       categories: categories ?? this.categories,
       products: products ?? this.products,
       transactionItems: transactionItems ?? this.transactionItems,
+      transactions: transactions ?? this.transactions,
       selectedCategory: selectedCategory ?? this.selectedCategory,
       totalPrice: totalPrice ?? this.totalPrice,
       transactionStatus: transactionStatus ?? this.transactionStatus,
@@ -79,7 +86,7 @@ class TransactionState extends Equatable {
 
   @override
   String toString() {
-    return 'TransactionState(transactionCategoryStatus: $transactionCategoryStatus, transactionProductStatus: $transactionProductStatus, categories: $categories, products: $products, transactionItems: $transactionItems, selectedCategory: $selectedCategory, totalPrice: $totalPrice, transactionStatus: $transactionStatus)';
+    return 'TransactionState(transactionCategoryStatus: $transactionCategoryStatus, transactionProductStatus: $transactionProductStatus, categories: $categories, products: $products, transactionItems: $transactionItems, transactions: $transactions, selectedCategory: $selectedCategory, totalPrice: $totalPrice, transactionStatus: $transactionStatus)';
   }
 
   @override
@@ -90,6 +97,7 @@ class TransactionState extends Equatable {
       categories,
       products,
       transactionItems,
+      transactions,
       selectedCategory ?? '',
       totalPrice,
       transactionStatus,

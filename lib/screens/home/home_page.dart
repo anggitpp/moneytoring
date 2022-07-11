@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moneytoring/config/constant.dart';
 import 'package:moneytoring/config/route_name.dart';
+import 'package:moneytoring/cubits/transaction/transaction_cubit.dart';
 import 'package:moneytoring/screens/home/widgets/home_drawer.dart';
 import 'package:moneytoring/screens/home/widgets/profit_card.dart';
 import 'package:moneytoring/screens/home/widgets/recent_transaction_item.dart';
@@ -21,15 +23,7 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-
-    // openDB(
-    //   Category(
-    //     id: 1,
-    //     categoryType: CategoryType.expenses,
-    //     name: 'Kategori',
-    //     imagePath: 'test',
-    //   ),
-    // );
+    context.read<TransactionCubit>().loadTransactions();
 
     tabController = TabController(
       initialIndex: selectedIndex,

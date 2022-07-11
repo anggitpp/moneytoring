@@ -68,7 +68,7 @@ class TransactionModel {
           ? TransactionType.income
           : TransactionType.expenses,
       buyerName: map['buyerName'] ?? '',
-      date: DateTime.fromMillisecondsSinceEpoch(map['date']),
+      date: DateTime.fromMillisecondsSinceEpoch((map['transaction_date'])),
       fee: map['fee']?.toDouble() ?? 0.0,
       discounnt: map['discounnt']?.toDouble() ?? 0.0,
       totalPrice: map['totalPrice']?.toDouble() ?? 0.0,

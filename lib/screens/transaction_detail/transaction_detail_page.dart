@@ -7,6 +7,7 @@ import 'package:moneytoring/screens/transaction_detail/widgets/order_information
 import 'package:moneytoring/screens/transaction_detail/widgets/transaction_detail_item.dart';
 import 'package:moneytoring/widgets/header_page.dart';
 
+import '../../config/route_name.dart';
 import '../../cubits/cubits.dart';
 
 class TransactionDetailPage extends StatefulWidget {
@@ -19,18 +20,28 @@ class TransactionDetailPage extends StatefulWidget {
 class _TransactionDetailPageState extends State<TransactionDetailPage> {
   final TextEditingController _feeController = TextEditingController();
   final TextEditingController _discountController = TextEditingController();
+  final TextEditingController _buyerController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
     final formatter = DateFormat('E dd/MM/yyyy');
     String formattedDate = formatter.format(now);
+    String databaseDate = now.microsecondsSinceEpoch.toString();
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
-        child: BlocBuilder<TransactionCubit, TransactionState>(
+        child: BlocConsumer<TransactionCubit, TransactionState>(
+          listener: (context, state) {
+            if (state.transactionStatus == TransactionStatus.finish) {
+              Navigator.pushReplacementNamed(context, RouteName.main);
+            }
+          },
           builder: (context, state) {
             final totalPrice = state.transactionItems
                 .map((element) => element.product.sellingPrice * element.amount)
+                .reduce((a, b) => a + b);
+            final totalAmount = state.transactionItems
+                .map((element) => element.amount)
                 .reduce((a, b) => a + b);
             return ListView(
               padding: EdgeInsets.zero,
@@ -106,6 +117,7 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
                         information: SizedBox(
                           height: 25,
                           child: TextField(
+                            controller: _buyerController,
                             textAlign: TextAlign.end,
                             style: AppTextStyle.mediumText,
                             decoration: InputDecoration(
@@ -196,7 +208,21 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
                         width: AppSizes.phoneWidthMargin(context),
                         height: 45,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () => context
+                              .read<TransactionCubit>()
+                              .insertTransaction({
+                            'buyer_name': _buyerController.text,
+                            'fee': _feeController.text.isNotEmpty
+                                ? double.parse(_feeController.text)
+                                : 0,
+                            'category_type': 'income',
+                            'discount': _discountController.text.isNotEmpty
+                                ? double.parse(_discountController.text)
+                                : 0,
+                            'transaction_date': databaseDate,
+                            'total': totalPrice,
+                            'quantity': totalAmount,
+                          }, state.transactionItems),
                           style: ElevatedButton.styleFrom(
                             primary: AppColors.yellowColor,
                             shape: RoundedRectangleBorder(

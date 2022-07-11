@@ -5,23 +5,48 @@ import 'package:sqflite/sqflite.dart';
 
 class TransactionRepository {
   final transactionTable = 'transactions';
-  final detailTable = 'transaction_detail';
+  final detailTable = 'transaction_details';
 
-  Future open(Database db, String path) async {
-    db = await openDatabase(path, version: 1,
-        onCreate: (Database db, int version) async {
-      await db.execute(
-          "CREATE TABLE $transactionTable (id INTEGER PRIMARY KEY, category_type TEXT, buyer_name TEXT, transaction_date DATE, fee REAL, discount REAL, quantity INTEGER, total REAL)");
-      await db.execute(
-          "CREATE TABLE $detailTable (id INTEGER PRIMARY KEY, transaction_id INTEGER, product_id INTEGER category_type TEXT, buyer_name TEXT, transaction_date DATE, fee REAL, discount REAL, quantity INTEGER, total REAL)");
-    });
+  // Future open(Database db, String path) async {
+  //   db = await openDatabase(path, version: 1,
+  //       onCreate: (Database db, int version) async {
+  //     await db.execute(
+  //         "CREATE TABLE $transactionTable (id INTEGER PRIMARY KEY, category_type TEXT, buyer_name TEXT, transaction_date DATE, fee REAL, discount REAL, quantity INTEGER, total REAL)");
+  //     await db.execute(
+  //         "CREATE TABLE $detailTable (id INTEGER PRIMARY KEY, transaction_id INTEGER, product_id INTEGER category_type TEXT, buyer_name TEXT, transaction_date DATE, fee REAL, discount REAL, quantity INTEGER, total REAL)");
+  //   });
+  // }
+
+  Future<void> _createTable() async {
+    var db = await openDatabase('moneytoring.db');
+
+    await db.execute('''
+    CREATE TABLE $transactionTable (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    category_type TEXT, 
+    buyer_name TEXT, 
+    transaction_date DATE, 
+    fee REAL, 
+    discount REAL, 
+    quantity INTEGER, 
+    total REAL)
+    ''');
+
+    await db.execute('''
+    CREATE TABLE $detailTable (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    transaction_id INTEGER, 
+    product_id INTEGER, 
+    category_type TEXT, 
+    quantity INTEGER, 
+    total REAL)
+    ''');
   }
 
-  Future<int> insert(Database db, TransactionModel transactionModel,
-      TransactionDetail transactionDetail) async {
-    int id = await db.insert(transactionTable, transactionModel.toMap());
-    await db.insert(
-        detailTable, transactionDetail.toMap(transactionDetailId: id));
+  Future<int> insert(Database db, Map<String, dynamic> transactionDatas) async {
+    int id = await db.insert(transactionTable, transactionDatas);
+
+    print(id);
 
     return id;
   }
@@ -36,15 +61,24 @@ class TransactionRepository {
   //   return id;
   // }
 
-  // Future<List<Category>> getCategories(Database db) async {
-  //   var categories = await db.query(table, orderBy: 'id DESC');
+  Future<List<TransactionModel>> getTransactions(Database db) async {
+    // db.rawQuery("DROP TABLE IF EXISTS $transactionTable");
+    // db.rawQuery("DROP TABLE IF EXISTS $detailTable");
 
-  //   List<Category> categoryList = categories.isNotEmpty
-  //       ? categories.map((e) => Category.fromMap(e)).toList()
-  //       : [];
+    try {
+      await db.query(transactionTable, orderBy: 'id DESC');
+    } on DatabaseException {
+      await _createTable();
+    }
 
-  //   return categoryList;
-  // }
+    var transactions = await db.query(transactionTable, orderBy: 'id DESC');
+
+    List<TransactionModel> transactionList = transactions.isNotEmpty
+        ? transactions.map((e) => TransactionModel.fromMap(e)).toList()
+        : [];
+
+    return transactionList;
+  }
 
   // Future<Category?> getCategoryById(Database db, int id) async {
   //   List<Map<String, Object?>> categories =
