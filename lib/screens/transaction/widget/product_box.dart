@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../config/theme.dart';
+import '../../../cubits/home/home_cubit.dart';
 import '../../../models/product.dart';
 
 class ProductBox extends StatelessWidget {
@@ -16,6 +18,8 @@ class ProductBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var imagePath =
+        context.watch<HomeCubit>().localImagePath + '/' + product.imagePath;
     return GestureDetector(
       onTap: onPress,
       child: Container(
@@ -31,7 +35,7 @@ class ProductBox extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image(
-                  image: FileImage(File(product.imagePath)),
+                  image: FileImage(File(imagePath)),
                   fit: BoxFit.fill,
                 ),
               ),

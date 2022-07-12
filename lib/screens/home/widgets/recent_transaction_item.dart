@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'package:moneytoring/models/transaction_model.dart';
+
 import '../../../config/constant.dart';
 import '../../../config/theme.dart';
 
 class RecentTransactionItem extends StatelessWidget {
-  const RecentTransactionItem({Key? key}) : super(key: key);
+  final TransactionModel transactionModel;
+  const RecentTransactionItem(
+    this.transactionModel, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +36,14 @@ class RecentTransactionItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Aquarium XL',
+                  'Aquarium XL + 3 lainnya',
                   style: AppTextStyle.mediumText,
                 ),
                 const SizedBox(
                   height: 4,
                 ),
                 Text(
-                  '25 November 02:21 PM',
+                  'Buyer Name (25 November 2022)',
                   style: AppTextStyle.greySmallText,
                 )
               ],
@@ -46,7 +52,7 @@ class RecentTransactionItem extends StatelessWidget {
             Text(
               NumberFormat.currency(
                       locale: 'id_ID', symbol: '', decimalDigits: 0)
-                  .format(50000),
+                  .format(450000),
               style:
                   AppTextStyle.mediumText.copyWith(fontWeight: FontWeight.w500),
             )

@@ -21,12 +21,12 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
   final TextEditingController _feeController = TextEditingController();
   final TextEditingController _discountController = TextEditingController();
   final TextEditingController _buyerController = TextEditingController();
+
+  final now = DateTime.now();
+  final formatter = DateFormat('E dd/MM/yyyy');
+
   @override
   Widget build(BuildContext context) {
-    final now = DateTime.now();
-    final formatter = DateFormat('E dd/MM/yyyy');
-    String formattedDate = formatter.format(now);
-    String databaseDate = now.microsecondsSinceEpoch.toString();
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
@@ -108,7 +108,7 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
                       OrderInformationItem(
                         title: 'Date',
                         information: Text(
-                          formattedDate,
+                          formatter.format(now),
                           style: AppTextStyle.mediumText,
                         ),
                       ),
@@ -219,7 +219,8 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
                             'discount': _discountController.text.isNotEmpty
                                 ? double.parse(_discountController.text)
                                 : 0,
-                            'transaction_date': databaseDate,
+                            'transaction_date':
+                                now.microsecondsSinceEpoch.toString(),
                             'total': totalPrice,
                             'quantity': totalAmount,
                           }, state.transactionItems),

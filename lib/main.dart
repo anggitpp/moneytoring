@@ -29,6 +29,9 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider<HomeCubit>(
+            create: (context) => HomeCubit(),
+          ),
           BlocProvider<AddCategoryCubit>(
             create: (context) =>
                 AddCategoryCubit(categoryRepository: CategoryRepository()),

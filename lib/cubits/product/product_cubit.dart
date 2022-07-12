@@ -138,7 +138,7 @@ class ProductCubit extends Cubit<ProductState> {
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
     image = File(pickedImage!.path); // won't have any error now
-    emit(state.copyWith(imagePath: pickedImage.path));
+    emit(state.copyWith(imagePath: pickedImage.name));
   }
 
   void reset() {

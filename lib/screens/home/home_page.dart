@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moneytoring/config/constant.dart';
 import 'package:moneytoring/config/route_name.dart';
-import 'package:moneytoring/cubits/transaction/transaction_cubit.dart';
+import 'package:moneytoring/cubits/cubits.dart';
 import 'package:moneytoring/screens/home/widgets/home_drawer.dart';
 import 'package:moneytoring/screens/home/widgets/profit_card.dart';
 import 'package:moneytoring/screens/home/widgets/recent_transaction_item.dart';
@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage>
   void initState() {
     super.initState();
     context.read<TransactionCubit>().loadTransactions();
+    context.read<HomeCubit>().getLocalStorageImagePath();
 
     tabController = TabController(
       initialIndex: selectedIndex,
@@ -104,11 +105,17 @@ class _HomePageState extends State<HomePage>
                 const SizedBox(
                   height: 20,
                 ),
-                Column(
-                  children: List.generate(
-                    10,
-                    (index) => const RecentTransactionItem(),
-                  ).toList(),
+                BlocBuilder<TransactionCubit, TransactionState>(
+                  builder: (context, state) {
+                    return ListView.builder(
+                      itemCount: state.transactions.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return RecentTransactionItem(state.transactions[index]);
+                      },
+                    );
+                  },
                 ),
               ],
             ),

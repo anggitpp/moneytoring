@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:moneytoring/config/route_name.dart';
+import 'package:moneytoring/cubits/cubits.dart';
 
 import 'package:moneytoring/models/product.dart';
 
@@ -16,9 +18,10 @@ class ProductItem extends StatelessWidget {
   }) : super(key: key);
 
   final Product product;
-
   @override
   Widget build(BuildContext context) {
+    var imagePath =
+        context.watch<HomeCubit>().localImagePath + '/' + product.imagePath;
     return Column(
       children: [
         Stack(
@@ -40,7 +43,7 @@ class ProductItem extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: Image(
-                          image: FileImage(File(product.imagePath)),
+                          image: FileImage(File(imagePath)),
                           fit: BoxFit.cover,
                         ),
                       ),

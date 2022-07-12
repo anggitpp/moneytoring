@@ -1,12 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:moneytoring/models/transaction_detail.dart';
 import 'package:moneytoring/models/transaction_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'package:moneytoring/models/product.dart';
 import 'package:moneytoring/models/transaction_item.dart';
-import 'package:moneytoring/repository/category_repository.dart';
 import 'package:moneytoring/repository/repositories.dart';
 
 import '../../config/constant.dart';
@@ -171,8 +169,7 @@ class TransactionCubit extends Cubit<TransactionState> {
           transactionStatus: TransactionStatus.finish,
           transactions: transactions));
     } catch (e) {
-      print(e);
-      // emit(state.copyWith(addProductStatus: AddProductStatus.error));
+      emit(state.copyWith(transactionStatus: TransactionStatus.error));
     }
   }
 }

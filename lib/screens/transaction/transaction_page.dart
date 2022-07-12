@@ -199,7 +199,7 @@ class _TransactionPageState extends State<TransactionPage> {
                       ),
                     ],
                   )
-                : Center(
+                : const Center(
                     child: CircularProgressIndicator(),
                   );
           },

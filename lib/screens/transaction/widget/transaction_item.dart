@@ -1,11 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:moneytoring/models/transaction_item.dart';
 
 import '../../../config/theme.dart';
-import '../../../models/product.dart';
+import '../../../cubits/home/home_cubit.dart';
 
 class TransactionItemWidget extends StatelessWidget {
   final TransactionItem transactionItem;
@@ -20,6 +21,9 @@ class TransactionItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var imagePath = context.watch<HomeCubit>().localImagePath +
+        '/' +
+        transactionItem.product.imagePath;
     return Row(
       children: [
         SizedBox(
@@ -28,7 +32,7 @@ class TransactionItemWidget extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: Image(
-              image: FileImage(File(transactionItem.product.imagePath)),
+              image: FileImage(File(imagePath)),
               fit: BoxFit.cover,
             ),
           ),
