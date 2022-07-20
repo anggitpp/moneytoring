@@ -160,7 +160,7 @@ class TransactionCubit extends Cubit<TransactionState> {
     emit(state.copyWith(transactionStatus: TransactionStatus.submitting));
 
     try {
-      await transactionRepository.insert(db, transactionData);
+      await transactionRepository.insert(db, transactionData, detailDatas);
 
       List<TransactionModel> transactions =
           await transactionRepository.getTransactions(db);

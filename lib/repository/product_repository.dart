@@ -21,13 +21,13 @@ class ProductRepository {
   }
 
   Future<int> insert(Database db, Product product) async {
-    int id = await db.insert(table, product.toMap());
+    int id = await db.insert(table, product.toJson());
 
     return id;
   }
 
   Future<int> update(Database db, Product product) async {
-    int id = await db.update(table, product.toMap(),
+    int id = await db.update(table, product.toJson(),
         where: 'id = ?', whereArgs: [product.id]);
 
     return id;
@@ -43,7 +43,7 @@ class ProductRepository {
     var products = await db.query(table, orderBy: 'id DESC');
 
     List<Product> productList = products.isNotEmpty
-        ? products.map((e) => Product.fromMap(e)).toList()
+        ? products.map((e) => Product.fromJson(e)).toList()
         : [];
 
     return productList;
@@ -54,7 +54,7 @@ class ProductRepository {
         await db.query(table, where: 'id = ?', whereArgs: [id]);
 
     if (products.isNotEmpty) {
-      return Product.fromMap(products.first);
+      return Product.fromJson(products.first);
     }
     return null;
   }

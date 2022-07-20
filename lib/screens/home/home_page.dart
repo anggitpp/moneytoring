@@ -102,17 +102,27 @@ class _HomePageState extends State<HomePage>
                     ],
                   ),
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 20,
                 ),
                 BlocBuilder<TransactionCubit, TransactionState>(
                   builder: (context, state) {
                     return ListView.builder(
+                      padding: EdgeInsets.zero,
                       itemCount: state.transactions.length,
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        return RecentTransactionItem(state.transactions[index]);
+                        return GestureDetector(
+                            onTap: () => Navigator.pushNamed(
+                                  context,
+                                  RouteName.detailTransaction,
+                                  arguments: {
+                                    'transaction': state.transactions[index],
+                                  },
+                                ),
+                            child: RecentTransactionItem(
+                                state.transactions[index]));
                       },
                     );
                   },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moneytoring/screens/add_product/add_product_page.dart';
 import 'package:moneytoring/screens/category/category_page.dart';
+import 'package:moneytoring/screens/detail_transaction/detail_transcation_page.dart';
 import 'package:moneytoring/screens/main/main_page.dart';
 import 'package:moneytoring/screens/transaction/transaction_page.dart';
 
@@ -18,6 +19,8 @@ final routes = {
       arguments: ModalRoute.of(context)!.settings.arguments as Map),
   RouteName.transaction: (context) => const TransactionPage(),
   RouteName.transactionDetail: (context) => const TransactionDetailPage(),
+  RouteName.detailTransaction: (context) => DetailTransactionPage(
+      arguments: ModalRoute.of(context)!.settings.arguments as Map),
   RouteName.category: (context) => const CategoryPage(),
   RouteName.addCategory: (context) => AddCategoryPage(
       arguments: ModalRoute.of(context)!.settings.arguments as Map),

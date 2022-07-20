@@ -5,21 +5,25 @@ import 'package:moneytoring/models/product.dart';
 class TransactionItem {
   final int id;
   final Product product;
+  final double sellingPrice;
   final int amount;
   TransactionItem({
     required this.id,
     required this.product,
+    required this.sellingPrice,
     required this.amount,
   });
 
   TransactionItem copyWith({
     int? id,
     Product? product,
+    double? sellingPrice,
     int? amount,
   }) {
     return TransactionItem(
       id: id ?? this.id,
       product: product ?? this.product,
+      sellingPrice: sellingPrice ?? this.sellingPrice,
       amount: amount ?? this.amount,
     );
   }
@@ -27,7 +31,8 @@ class TransactionItem {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'product': product.toMap(),
+      'product': product.toJson(),
+      'sellingPrice': sellingPrice,
       'amount': amount,
     };
   }
@@ -35,7 +40,8 @@ class TransactionItem {
   factory TransactionItem.fromMap(Map<String, dynamic> map) {
     return TransactionItem(
       id: map['id']?.toInt() ?? 0,
-      product: Product.fromMap(map['product']),
+      product: Product.fromJson(map['product']),
+      sellingPrice: map['sellingPrice']?.toDouble() ?? 0.0,
       amount: map['amount']?.toInt() ?? 0,
     );
   }
@@ -46,19 +52,7 @@ class TransactionItem {
       TransactionItem.fromMap(json.decode(source));
 
   @override
-  String toString() =>
-      'TransactionItem(id: $id, product: $product, amount: $amount)';
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is TransactionItem &&
-        other.id == id &&
-        other.product == product &&
-        other.amount == amount;
+  String toString() {
+    return 'TransactionItem(id: $id, product: $product, sellingPrice: $sellingPrice, amount: $amount)';
   }
-
-  @override
-  int get hashCode => id.hashCode ^ product.hashCode ^ amount.hashCode;
 }

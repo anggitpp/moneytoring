@@ -47,7 +47,7 @@ class TransactionDetailItem extends StatelessWidget {
                 Text(
                   NumberFormat.currency(
                           locale: 'id_ID', symbol: '', decimalDigits: 0)
-                      .format(transactionItem.product.sellingPrice),
+                      .format(transactionItem.sellingPrice),
                   style: AppTextStyle.greySmallText,
                 ),
               ],
@@ -56,7 +56,7 @@ class TransactionDetailItem extends StatelessWidget {
             Text(
               NumberFormat.currency(
                           locale: 'id_ID', symbol: 'Rp. ', decimalDigits: 0)
-                      .format(transactionItem.product.sellingPrice *
+                      .format(transactionItem.sellingPrice *
                           transactionItem.amount) +
                   ' (${transactionItem.amount})',
               style: AppTextStyle.mediumText,

@@ -53,8 +53,7 @@ class _TransactionPageState extends State<TransactionPage> {
                     children: [
                       HeaderPage(
                         GestureDetector(
-                            onTap: () =>
-                                Navigator.pushNamed(context, RouteName.main),
+                            onTap: () => Navigator.pop(context),
                             child: const Icon(Icons.arrow_back)),
                         Row(
                           children: [
@@ -122,6 +121,7 @@ class _TransactionPageState extends State<TransactionPage> {
                                         TransactionItem(
                                           id: e.id!,
                                           product: e,
+                                          sellingPrice: e.sellingPrice,
                                           amount: 1,
                                         ),
                                       ),

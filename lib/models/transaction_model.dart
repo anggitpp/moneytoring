@@ -9,41 +9,45 @@ class TransactionModel {
   final int id;
   final TransactionType transactionType;
   final String buyerName;
-  final DateTime date;
+  final String transactionDate;
   final double fee;
-  final double discounnt;
+  final double discount;
   final double totalPrice;
   final int quantity;
+  final String detailTransaction;
   TransactionModel({
     required this.id,
     required this.transactionType,
     required this.buyerName,
-    required this.date,
+    required this.transactionDate,
     required this.fee,
-    required this.discounnt,
+    required this.discount,
     required this.totalPrice,
     required this.quantity,
+    required this.detailTransaction,
   });
 
   TransactionModel copyWith({
     int? id,
     TransactionType? transactionType,
     String? buyerName,
-    DateTime? date,
+    String? transactionDate,
     double? fee,
-    double? discounnt,
+    double? discount,
     double? totalPrice,
     int? quantity,
+    String? detailTransaction,
   }) {
     return TransactionModel(
       id: id ?? this.id,
       transactionType: transactionType ?? this.transactionType,
       buyerName: buyerName ?? this.buyerName,
-      date: date ?? this.date,
+      transactionDate: transactionDate ?? this.transactionDate,
       fee: fee ?? this.fee,
-      discounnt: discounnt ?? this.discounnt,
+      discount: discount ?? this.discount,
       totalPrice: totalPrice ?? this.totalPrice,
       quantity: quantity ?? this.quantity,
+      detailTransaction: detailTransaction ?? this.detailTransaction,
     );
   }
 
@@ -52,37 +56,39 @@ class TransactionModel {
       'id': id,
       'transaction_type':
           transactionType == TransactionType.income ? 'income' : 'expenses',
-      'buyerName': buyerName,
-      'date': date.millisecondsSinceEpoch,
+      'buyer_name': buyerName,
+      'transaction_date': transactionDate,
       'fee': fee,
-      'discounnt': discounnt,
-      'totalPrice': totalPrice,
+      'discount': discount,
+      'total': totalPrice,
       'quantity': quantity,
+      'detailTransaction': detailTransaction,
     };
   }
 
-  factory TransactionModel.fromMap(Map<String, dynamic> map) {
+  factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
-      id: map['id']?.toInt() ?? 0,
-      transactionType: map['transaction_type'] == 'income'
+      id: json['id']?.toInt() ?? 0,
+      transactionType: json['transaction_type'] == 'income'
           ? TransactionType.income
           : TransactionType.expenses,
-      buyerName: map['buyerName'] ?? '',
-      date: DateTime.fromMillisecondsSinceEpoch((map['transaction_date'])),
-      fee: map['fee']?.toDouble() ?? 0.0,
-      discounnt: map['discounnt']?.toDouble() ?? 0.0,
-      totalPrice: map['totalPrice']?.toDouble() ?? 0.0,
-      quantity: map['quantity']?.toInt() ?? 0,
+      buyerName: json['buyer_name'] ?? '',
+      transactionDate: json['transaction_date'] ?? '',
+      fee: json['fee']?.toDouble() ?? 0.0,
+      discount: json['discount']?.toDouble() ?? 0.0,
+      totalPrice: json['total']?.toDouble() ?? 0.0,
+      quantity: json['quantity']?.toInt() ?? 0,
+      detailTransaction: json['detailTransaction'] ?? '',
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory TransactionModel.fromJson(String source) =>
-      TransactionModel.fromMap(json.decode(source));
+  // factory TransactionModel.fromJson(String source) =>
+  //     TransactionModel.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'TransactionModel(id: $id, transactionType: $transactionType, buyerName: $buyerName, date: $date, fee: $fee, discounnt: $discounnt, totalPrice: $totalPrice, quantity: $quantity)';
+    return 'TransactionModel(id: $id, transactionType: $transactionType, buyer_name: $buyerName, transaction_date: $transactionDate, fee: $fee, discount: $discount, total: $totalPrice, quantity: $quantity, detailTransaction: $detailTransaction)';
   }
 }

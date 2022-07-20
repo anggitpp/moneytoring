@@ -24,6 +24,7 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
 
   final now = DateTime.now();
   final formatter = DateFormat('E dd/MM/yyyy');
+  final formatterDB = DateFormat('yyyy-MM-dd');
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
           },
           builder: (context, state) {
             final totalPrice = state.transactionItems
-                .map((element) => element.product.sellingPrice * element.amount)
+                .map((element) => element.sellingPrice * element.amount)
                 .reduce((a, b) => a + b);
             final totalAmount = state.transactionItems
                 .map((element) => element.amount)
@@ -219,9 +220,8 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
                             'discount': _discountController.text.isNotEmpty
                                 ? double.parse(_discountController.text)
                                 : 0,
-                            'transaction_date':
-                                now.microsecondsSinceEpoch.toString(),
-                            'total': totalPrice,
+                            'transaction_date': formatterDB.format(now),
+                            'total': state.totalPrice,
                             'quantity': totalAmount,
                           }, state.transactionItems),
                           style: ElevatedButton.styleFrom(

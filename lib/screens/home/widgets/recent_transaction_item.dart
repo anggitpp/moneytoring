@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import 'package:moneytoring/models/transaction_model.dart';
 
 import '../../../config/constant.dart';
 import '../../../config/theme.dart';
+import '../../../cubits/cubits.dart';
 
 class RecentTransactionItem extends StatelessWidget {
   final TransactionModel transactionModel;
@@ -15,18 +19,35 @@ class RecentTransactionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var arrDetail = transactionModel.detailTransaction.split('|');
+    var productName = arrDetail[0] +
+        (int.parse(arrDetail[2]) > 1 ? ' + ${arrDetail[2]} lainnya' : '');
+    var imagePath =
+        context.watch<HomeCubit>().localImagePath + '/' + arrDetail[1];
+
     return Column(
       children: [
         Row(
           children: [
-            Container(
+            // Container(
+            //   width: 50,
+            //   height: 50,
+            //   decoration: const BoxDecoration(
+            //     shape: BoxShape.circle,
+            //     image: DecorationImage(
+            //         image: AssetImage('assets/images/aquarium.jpeg'),
+            //         fit: BoxFit.cover),
+            //   ),
+            // ),
+            SizedBox(
               width: 50,
               height: 50,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    image: AssetImage('assets/images/aquarium.jpeg'),
-                    fit: BoxFit.cover),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Image(
+                  image: FileImage(File(imagePath)),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             const SizedBox(
@@ -36,15 +57,26 @@ class RecentTransactionItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Aquarium XL + 3 lainnya',
+                  productName,
                   style: AppTextStyle.mediumText,
                 ),
                 const SizedBox(
                   height: 4,
                 ),
-                Text(
-                  'Buyer Name (25 November 2022)',
-                  style: AppTextStyle.greySmallText,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '${transactionModel.buyerName}',
+                      style: AppTextStyle.greySmallText,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                        '(${DateFormat("dd MMMM yyyy").format(DateTime.parse(transactionModel.transactionDate))})',
+                        style: AppTextStyle.greySmallText),
+                  ],
                 )
               ],
             ),
@@ -52,7 +84,7 @@ class RecentTransactionItem extends StatelessWidget {
             Text(
               NumberFormat.currency(
                       locale: 'id_ID', symbol: '', decimalDigits: 0)
-                  .format(450000),
+                  .format(transactionModel.totalPrice),
               style:
                   AppTextStyle.mediumText.copyWith(fontWeight: FontWeight.w500),
             )
