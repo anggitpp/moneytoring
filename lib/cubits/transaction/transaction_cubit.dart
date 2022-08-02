@@ -9,6 +9,7 @@ import 'package:moneytoring/repository/repositories.dart';
 
 import '../../config/constant.dart';
 import '../../models/category.dart';
+import '../../models/transaction_detail.dart';
 
 part 'transaction_state.dart';
 
@@ -72,7 +73,7 @@ class TransactionCubit extends Cubit<TransactionState> {
 
   void onPressProduct(TransactionItem transactionItem) {
     var contain = state.transactionItems
-        .where((element) => element.product == transactionItem.product);
+        .where((element) => element.product.id == transactionItem.product.id);
 
     if (contain.isEmpty) {
       emit(state.copyWith(
@@ -166,10 +167,69 @@ class TransactionCubit extends Cubit<TransactionState> {
           await transactionRepository.getTransactions(db);
 
       emit(state.copyWith(
+        transactionStatus: TransactionStatus.finish,
+        transactions: transactions,
+      ));
+    } catch (e) {
+      emit(state.copyWith(transactionStatus: TransactionStatus.error));
+    }
+  }
+
+  void getTransactionDetails(TransactionModel transaction) async {
+    emit(state.copyWith(
+        transactionProductStatus: TransactionProductStatus.loading));
+    var db = await openDatabase(databaseApplication);
+    List<TransactionDetail> details =
+        await transactionRepository.getTransactionDetails(db, transaction.id);
+
+    List<TransactionItem> items = [
+      for (final detail in details)
+        TransactionItem(
+            id: detail.id,
+            product: detail.product,
+            amount: int.parse(detail.quantity),
+            sellingPrice: detail.product.sellingPrice)
+    ];
+
+    emit(state.copyWith(
+        transactionProductStatus: TransactionProductStatus.loaded,
+        transactionItems: items,
+        transaction: transaction));
+  }
+
+  void updateTransaction(Map<String, dynamic> transactionData,
+      List<TransactionItem> detailDatas, int transactionId) async {
+    var db = await openDatabase(databaseApplication);
+
+    emit(state.copyWith(transactionStatus: TransactionStatus.submitting));
+
+    try {
+      await transactionRepository.update(
+          db, transactionData, detailDatas, transactionId);
+
+      List<TransactionModel> transactions =
+          await transactionRepository.getTransactions(db);
+
+      emit(state.copyWith(
           transactionStatus: TransactionStatus.finish,
           transactions: transactions));
     } catch (e) {
       emit(state.copyWith(transactionStatus: TransactionStatus.error));
     }
+  }
+
+  void resetData() {
+    emit(state.copyWith(
+      transactionItems: [],
+      totalPrice: 0,
+      selectedCategory: null,
+      transaction: null,
+      transactions: [],
+      products: [],
+      categories: [],
+      transactionCategoryStatus: TransactionCategoryStatus.initial,
+      transactionProductStatus: TransactionProductStatus.initial,
+      transactionStatus: TransactionStatus.initial,
+    ));
   }
 }

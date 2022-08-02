@@ -33,6 +33,7 @@ class TransactionDetail {
         id: int.parse(detail['id'].toString()),
         transactionId: transactionId,
         product: Product(
+            id: detail['productId'],
             name: detail['name'].toString(),
             categoryId: int.parse(detail['category_id'].toString()),
             buyingPrice: double.parse(detail['buying_price'].toString()),
@@ -42,65 +43,9 @@ class TransactionDetail {
             status: int.parse(detail['status'].toString())),
         quantity: detail['quantity'].toString());
   }
+
+  @override
+  String toString() {
+    return 'TransactionDetail(id: $id, transactionId: $transactionId, product: $product, quantity: $quantity)';
+  }
 }
-
-
-
-// import 'dart:convert';
-
-// import 'product.dart';
-
-// class TransactionDetail {
-//   final int id;
-//   final int transactionId;
-//   final Product product;
-//   final int quantity;
-//   TransactionDetail({
-//     required this.id,
-//     required this.transactionId,
-//     required this.product,
-//     required this.quantity,
-//   });
-
-//   TransactionDetail copyWith({
-//     int? id,
-//     int? transactionId,
-//     Product? product,
-//     int? quantity,
-//   }) {
-//     return TransactionDetail(
-//       id: id ?? this.id,
-//       transactionId: transactionId ?? this.transactionId,
-//       product: product ?? this.product,
-//       quantity: quantity ?? this.quantity,
-//     );
-//   }
-
-//   factory TransactionDetail.fromMap(Map<String, dynamic> map) {
-//     return TransactionDetail(
-//       id: map['id']?.toInt() ?? 0,
-//       transactionId: map['transactionId']?.toInt() ?? 0,
-//       product: Product.fromMap(map['product']),
-//       quantity: map['quantity']?.toInt() ?? 0,
-//     );
-//   }
-
-//   String toJson() => json.encode(toMap());
-
-//   factory TransactionDetail.fromJson(String source) =>
-//       TransactionDetail.fromMap(json.decode(source));
-
-//   @override
-//   String toString() {
-//     return 'TransactionDetail(id: $id, transactionId: $transactionId, product: $product, quantity: $quantity)';
-//   }
-
-//   Map<String, dynamic> toMap({int? transactionDetailId}) {
-//     return {
-//       'id': id,
-//       'transactionId': transactionDetailId ?? transactionId,
-//       'product': product.toMap(),
-//       'quantity': quantity,
-//     };
-//   }
-// }

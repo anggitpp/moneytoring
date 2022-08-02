@@ -40,6 +40,11 @@ class Product {
         "imagePath": imagePath,
         "status": status,
       };
+
+  @override
+  String toString() {
+    return 'Product(id: $id, name: $name, categoryId: $categoryId, buyingPrice: $buyingPrice, sellingPrice: $sellingPrice, stock: $stock, imagePath: $imagePath, status: $status)';
+  }
 }
 
 
@@ -87,8 +92,5 @@ class Product {
 //         status: map['status'],
 //       );
 
-//   @override
-//   String toString() {
-//     return 'Product(id: $id, name: $name, categoryId: $categoryId, buyingPrice: $buyingPrice, sellingPrice: $sellingPrice, stock: $stock, imagePath: $imagePath, status: $status)';
-//   }
+  
 // }

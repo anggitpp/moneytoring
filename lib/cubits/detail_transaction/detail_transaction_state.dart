@@ -4,6 +4,8 @@ enum DetailTransactionStatus {
   initial,
   loading,
   loaded,
+
+  deleted,
   error,
 }
 

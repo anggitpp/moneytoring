@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+
 import 'package:moneytoring/config/constant.dart';
 import 'package:moneytoring/config/theme.dart';
+import 'package:moneytoring/models/transaction_model.dart';
 import 'package:moneytoring/screens/transaction_detail/widgets/order_information_item.dart';
 import 'package:moneytoring/screens/transaction_detail/widgets/transaction_detail_item.dart';
 import 'package:moneytoring/widgets/header_page.dart';
@@ -11,7 +13,11 @@ import '../../config/route_name.dart';
 import '../../cubits/cubits.dart';
 
 class TransactionDetailPage extends StatefulWidget {
-  const TransactionDetailPage({Key? key}) : super(key: key);
+  final Map? arguments;
+  const TransactionDetailPage({
+    Key? key,
+    this.arguments,
+  }) : super(key: key);
 
   @override
   State<TransactionDetailPage> createState() => _TransactionDetailPageState();
@@ -25,6 +31,30 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
   final now = DateTime.now();
   final formatter = DateFormat('E dd/MM/yyyy');
   final formatterDB = DateFormat('yyyy-MM-dd');
+
+  @override
+  void initState() {
+    if (widget.arguments?['details'] != null) {
+      TransactionModel transactionModel = widget.arguments!['transaction'];
+      _feeController.text = transactionModel.fee.toInt().toString();
+      _buyerController.text = transactionModel.buyerName;
+      _discountController.text = transactionModel.discount.toInt().toString();
+    } else {
+      _feeController.text = '';
+      _buyerController.text = '';
+      _discountController.text = '';
+    }
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _feeController.dispose();
+    _discountController.dispose();
+    _buyerController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +74,7 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
             final totalAmount = state.transactionItems
                 .map((element) => element.amount)
                 .reduce((a, b) => a + b);
+
             return ListView(
               padding: EdgeInsets.zero,
               children: [
@@ -209,21 +240,36 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
                         width: AppSizes.phoneWidthMargin(context),
                         height: 45,
                         child: ElevatedButton(
-                          onPressed: () => context
-                              .read<TransactionCubit>()
-                              .insertTransaction({
-                            'buyer_name': _buyerController.text,
-                            'fee': _feeController.text.isNotEmpty
-                                ? double.parse(_feeController.text)
-                                : 0,
-                            'category_type': 'income',
-                            'discount': _discountController.text.isNotEmpty
-                                ? double.parse(_discountController.text)
-                                : 0,
-                            'transaction_date': formatterDB.format(now),
-                            'total': state.totalPrice,
-                            'quantity': totalAmount,
-                          }, state.transactionItems),
+                          onPressed: () {
+                            var data = {
+                              'buyer_name': _buyerController.text,
+                              'fee': _feeController.text.isNotEmpty
+                                  ? double.parse(_feeController.text)
+                                  : 0,
+                              'category_type': 'income',
+                              'discount': _discountController.text.isNotEmpty
+                                  ? double.parse(_discountController.text)
+                                  : 0,
+                              'transaction_date': formatterDB.format(now),
+                              'total': state.totalPrice == 0
+                                  ? totalPrice
+                                  : state.totalPrice,
+                              'quantity': totalAmount,
+                            };
+                            if (widget.arguments?['details'] == null) {
+                              context
+                                  .read<TransactionCubit>()
+                                  .insertTransaction(
+                                      data, state.transactionItems);
+                            } else {
+                              context
+                                  .read<TransactionCubit>()
+                                  .updateTransaction(
+                                      data,
+                                      state.transactionItems,
+                                      widget.arguments!['transaction'].id);
+                            }
+                          },
                           style: ElevatedButton.styleFrom(
                             primary: AppColors.yellowColor,
                             shape: RoundedRectangleBorder(

@@ -3,8 +3,6 @@ import 'package:moneytoring/config/routes.dart';
 import 'package:moneytoring/config/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moneytoring/cubits/cubits.dart';
-import 'package:moneytoring/cubits/detail_transaction/detail_transaction_cubit.dart';
-
 import 'repository/repositories.dart';
 
 void main() {

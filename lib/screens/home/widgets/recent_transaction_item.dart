@@ -20,8 +20,11 @@ class RecentTransactionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var arrDetail = transactionModel.detailTransaction.split('|');
+    // print(arrDetail);
     var productName = arrDetail[0] +
-        (int.parse(arrDetail[2]) > 1 ? ' + ${arrDetail[2]} lainnya' : '');
+        (int.parse(arrDetail[2]) > 1
+            ? ' + ${int.parse(arrDetail[2]) - 1} lainnya'
+            : '');
     var imagePath =
         context.watch<HomeCubit>().localImagePath + '/' + arrDetail[1];
 
@@ -29,16 +32,6 @@ class RecentTransactionItem extends StatelessWidget {
       children: [
         Row(
           children: [
-            // Container(
-            //   width: 50,
-            //   height: 50,
-            //   decoration: const BoxDecoration(
-            //     shape: BoxShape.circle,
-            //     image: DecorationImage(
-            //         image: AssetImage('assets/images/aquarium.jpeg'),
-            //         fit: BoxFit.cover),
-            //   ),
-            // ),
             SizedBox(
               width: 50,
               height: 50,
@@ -67,10 +60,10 @@ class RecentTransactionItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${transactionModel.buyerName}',
+                      transactionModel.buyerName,
                       style: AppTextStyle.greySmallText,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     Text(

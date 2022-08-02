@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:moneytoring/models/product.dart';
 import 'package:moneytoring/models/transaction_detail.dart';
 import 'package:moneytoring/models/transaction_item.dart';
 import 'package:moneytoring/models/transaction_model.dart';
@@ -60,16 +57,6 @@ class TransactionRepository {
     }
   }
 
-  // Future<int> update(Database db, TransactionModel transactionModel,
-  //     TransactionDetail transactionDetail) async {
-  //   int id = await db.update(transactionTable, transactionModel.toMap(),
-  //       where: 'id = ?', whereArgs: [transactionModel.id]);
-  //   await db.update(detailTable, transactionDetail.toMap(),
-  //       where: 'id = ?', whereArgs: [transactionDetail.id]);
-
-  //   return id;
-  // }
-
   Future<List<TransactionModel>> getTransactions(Database db) async {
     // db.rawQuery("DROP TABLE IF EXISTS $transactionTable");
     // db.rawQuery("DROP TABLE IF EXISTS $detailTable");
@@ -92,14 +79,13 @@ class TransactionRepository {
     List<TransactionModel> transactionList = transactions.isNotEmpty
         ? transactions.map((e) => TransactionModel.fromJson(e)).toList()
         : [];
-
     return transactionList;
   }
 
   Future<List<TransactionDetail>> getTransactionDetails(
       Database db, int transactionId) async {
     List<Map<String, Object?>> detailTransactions = await db.rawQuery(
-        "SELECT t1.id, t1.buying_price, t1.selling_price, t1.quantity, t2.category_id, t2.name, t2.image, t2.stock, t2.status FROM $detailTable t1 JOIN $productTable t2 ON t1.product_id = t2.id WHERE t1.transaction_id = '$transactionId'");
+        "SELECT t1.id, t1.buying_price, t1.selling_price, t1.quantity, t2.id as productId, t2.category_id, t2.name, t2.image, t2.stock, t2.status FROM $detailTable t1 JOIN $productTable t2 ON t1.product_id = t2.id WHERE t1.transaction_id = '$transactionId'");
 
     List<TransactionDetail> details = [];
     for (var detail in detailTransactions) {
@@ -107,5 +93,45 @@ class TransactionRepository {
     }
 
     return details;
+  }
+
+  Future<int> update(Database db, Map<String, dynamic> transactionDatas,
+      List<TransactionItem> details, int transactionId) async {
+    try {
+      int id = await db.update(transactionTable, transactionDatas,
+          where: 'id = ?', whereArgs: [transactionId]);
+
+      await db.delete(detailTable,
+          where: 'transaction_id = ?', whereArgs: [transactionId]);
+      for (var detail in details) {
+        await db.insert(
+          detailTable,
+          {
+            'transaction_id': transactionId,
+            'product_id': detail.product.id,
+            'buying_price': detail.product.buyingPrice,
+            'selling_price': detail.product.sellingPrice,
+            'quantity': detail.amount,
+            'total': detail.product.sellingPrice * detail.amount
+          },
+        );
+      }
+
+      return id;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  Future<void> delete(Database db, int transactionid) async {
+    try {
+      await db.delete(transactionTable,
+          where: 'id = ?', whereArgs: [transactionid]);
+
+      await db.delete(detailTable,
+          where: 'transaction_id = ?', whereArgs: [transactionid]);
+    } catch (e) {
+      rethrow;
+    }
   }
 }

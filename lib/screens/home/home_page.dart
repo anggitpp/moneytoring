@@ -39,8 +39,13 @@ class _HomePageState extends State<HomePage>
       backgroundColor: AppColors.backgroundColor,
       floatingActionButton: FloatingActionButton(
         heroTag: "btnTransaction",
-        onPressed: () =>
-            Navigator.pushReplacementNamed(context, RouteName.transaction),
+        onPressed: () {
+          Navigator.pushReplacementNamed(
+            context,
+            RouteName.transaction,
+          );
+          context.read<TransactionCubit>().resetData();
+        },
         backgroundColor: AppColors.yellowColor,
         child: const Icon(
           Icons.add,
@@ -102,7 +107,7 @@ class _HomePageState extends State<HomePage>
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 BlocBuilder<TransactionCubit, TransactionState>(
@@ -114,13 +119,16 @@ class _HomePageState extends State<HomePage>
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                            onTap: () => Navigator.pushNamed(
-                                  context,
-                                  RouteName.detailTransaction,
-                                  arguments: {
-                                    'transaction': state.transactions[index],
-                                  },
-                                ),
+                            onTap: () {
+                              context.read<TransactionCubit>().resetData();
+                              Navigator.pushNamed(
+                                context,
+                                RouteName.detailTransaction,
+                                arguments: {
+                                  'transaction': state.transactions[index],
+                                },
+                              );
+                            },
                             child: RecentTransactionItem(
                                 state.transactions[index]));
                       },

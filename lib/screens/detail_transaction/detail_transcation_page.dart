@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:moneytoring/config/helper.dart';
 import 'package:moneytoring/config/route_name.dart';
 import 'package:moneytoring/cubits/cubits.dart';
 import 'package:moneytoring/models/transaction_item.dart';
 import 'package:moneytoring/models/transaction_model.dart';
+import 'package:moneytoring/widgets/alert_dialog.dart';
 
 import '../../config/constant.dart';
 import '../../config/theme.dart';
-import '../../cubits/transaction/transaction_cubit.dart';
 import '../../widgets/header_page.dart';
 import '../transaction_detail/widgets/order_information_item.dart';
 import '../transaction_detail/widgets/transaction_detail_item.dart';
@@ -29,8 +28,6 @@ class DetailTransactionPage extends StatefulWidget {
 class _DetailTransactionPageState extends State<DetailTransactionPage> {
   @override
   void initState() {
-    // print(widget.arguments['transaction']);
-    // TODO: implement initState
     super.initState();
     context
         .read<DetailTransactionCubit>()
@@ -45,7 +42,13 @@ class _DetailTransactionPageState extends State<DetailTransactionPage> {
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.zero,
-          child: BlocBuilder<DetailTransactionCubit, DetailTransactionState>(
+          child: BlocConsumer<DetailTransactionCubit, DetailTransactionState>(
+            listener: (context, state) {
+              if (state.detailTransactionStatus ==
+                  DetailTransactionStatus.deleted) {
+                Navigator.pushReplacementNamed(context, RouteName.main);
+              }
+            },
             builder: (context, state) {
               return state.detailTransactionStatus !=
                       DetailTransactionStatus.loading
@@ -62,9 +65,16 @@ class _DetailTransactionPageState extends State<DetailTransactionPage> {
                               fontSize: 20,
                             ),
                           ),
-                          const SizedBox(
-                            width: 24,
-                          ),
+                          GestureDetector(
+                              onTap: () => showGlobalAlertConfirm(
+                                  context,
+                                  'Delete Transactions',
+                                  'Are you sure to delete this transaction?\n',
+                                  () => context
+                                      .read<DetailTransactionCubit>()
+                                      .deleteTransaction(
+                                          widget.arguments['transaction'].id)),
+                              child: const Icon(Icons.delete)),
                         ),
                         const SizedBox(
                           height: 15,
@@ -127,6 +137,13 @@ class _DetailTransactionPageState extends State<DetailTransactionPage> {
                                 ),
                               ),
                               OrderInformationItem(
+                                title: 'Buyer Name',
+                                information: Text(
+                                  transaction.buyerName,
+                                  style: AppTextStyle.mediumText,
+                                ),
+                              ),
+                              OrderInformationItem(
                                 title: 'Discount',
                                 information: Text(
                                   Helper.getFormattedCurrency(
@@ -160,7 +177,11 @@ class _DetailTransactionPageState extends State<DetailTransactionPage> {
                           height: 45,
                           child: ElevatedButton(
                             onPressed: () => Navigator.pushNamed(
-                                context, RouteName.transaction),
+                                context, RouteName.transaction,
+                                arguments: {
+                                  'transaction': transaction,
+                                  'details': state.details,
+                                }),
                             style: ElevatedButton.styleFrom(
                               primary: AppColors.yellowColor,
                               shape: RoundedRectangleBorder(
@@ -172,10 +193,10 @@ class _DetailTransactionPageState extends State<DetailTransactionPage> {
                               style: AppTextStyle.mediumText,
                             ),
                           ),
-                        )
+                        ),
                       ],
                     )
-                  : Center(
+                  : const Center(
                       child: CircularProgressIndicator(),
                     );
             },

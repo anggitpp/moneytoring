@@ -17,8 +17,10 @@ final routes = {
   RouteName.home: (context) => const HomePage(),
   RouteName.addProduct: (context) => AddProductPage(
       arguments: ModalRoute.of(context)!.settings.arguments as Map),
-  RouteName.transaction: (context) => const TransactionPage(),
-  RouteName.transactionDetail: (context) => const TransactionDetailPage(),
+  RouteName.transaction: (context) => TransactionPage(
+      arguments: ModalRoute.of(context)?.settings.arguments as Map?),
+  RouteName.transactionDetail: (context) => TransactionDetailPage(
+      arguments: ModalRoute.of(context)?.settings.arguments as Map?),
   RouteName.detailTransaction: (context) => DetailTransactionPage(
       arguments: ModalRoute.of(context)!.settings.arguments as Map),
   RouteName.category: (context) => const CategoryPage(),

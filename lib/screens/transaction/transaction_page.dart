@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:moneytoring/config/constant.dart';
 import 'package:moneytoring/config/route_name.dart';
 import 'package:moneytoring/cubits/cubits.dart';
@@ -7,12 +8,17 @@ import 'package:moneytoring/models/category.dart';
 import 'package:moneytoring/screens/transaction/widget/category_box.dart';
 import 'package:moneytoring/screens/transaction/widget/product_box.dart';
 import 'package:moneytoring/widgets/header_page.dart';
+
 import '../../../config/theme.dart';
 import '../../models/transaction_item.dart';
 import 'widget/transaction_item.dart';
 
 class TransactionPage extends StatefulWidget {
-  const TransactionPage({Key? key}) : super(key: key);
+  final Map? arguments;
+  const TransactionPage({
+    Key? key,
+    this.arguments,
+  }) : super(key: key);
 
   @override
   State<TransactionPage> createState() => _TransactionPageState();
@@ -27,6 +33,11 @@ class _TransactionPageState extends State<TransactionPage> {
           .where((element) => element.categoryType == CategoryType.income)
           .first);
     });
+    if (widget.arguments != null) {
+      context
+          .read<TransactionCubit>()
+          .getTransactionDetails(widget.arguments!['transaction']);
+    }
     super.initState();
   }
 
@@ -53,7 +64,8 @@ class _TransactionPageState extends State<TransactionPage> {
                     children: [
                       HeaderPage(
                         GestureDetector(
-                            onTap: () => Navigator.pop(context),
+                            onTap: () =>
+                                Navigator.pushNamed(context, RouteName.main),
                             child: const Icon(Icons.arrow_back)),
                         Row(
                           children: [
@@ -182,7 +194,11 @@ class _TransactionPageState extends State<TransactionPage> {
                       ),
                       GestureDetector(
                         onTap: () => Navigator.pushNamed(
-                            context, RouteName.transactionDetail),
+                            context, RouteName.transactionDetail,
+                            arguments: {
+                              'transaction': state.transaction,
+                              'details': widget.arguments?['details'],
+                            }),
                         child: Container(
                           width: 50,
                           height: 50,
