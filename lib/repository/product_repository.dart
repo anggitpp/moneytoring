@@ -26,9 +26,9 @@ class ProductRepository {
     return id;
   }
 
-  Future<int> update(Database db, Product product) async {
+  Future<int> update(Database db, Product product, int productId) async {
     int id = await db.update(table, product.toJson(),
-        where: 'id = ?', whereArgs: [product.id]);
+        where: 'id = ?', whereArgs: [productId]);
 
     return id;
   }

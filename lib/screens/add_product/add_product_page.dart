@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:moneytoring/config/route_name.dart';
 import 'package:moneytoring/cubits/cubits.dart';
 import 'package:moneytoring/models/product.dart';
 import 'package:moneytoring/screens/add_product/widgets/add_product_photo.dart';
@@ -72,15 +71,15 @@ class _AddProductPageState extends State<AddProductPage> {
             }
           },
           builder: (context, state) {
-            return state.addProductStatus != AddProductStatus.loading &&
+            return state.addProductStatus != AddProductStatus.submitting &&
+                    state.addProductStatus != AddProductStatus.loading &&
                     state.productCategoryStatus != ProductCategoryStatus.loading
                 ? ListView(
                     padding: EdgeInsets.zero,
                     children: [
                       HeaderPage(
                         GestureDetector(
-                          onTap: () => Navigator.pushReplacementNamed(
-                              context, RouteName.main),
+                          onTap: () => Navigator.pop(context),
                           child: const Icon(
                             Icons.arrow_back,
                             size: 24,
@@ -112,11 +111,14 @@ class _AddProductPageState extends State<AddProductPage> {
                         height: 20,
                       ),
                       AddProductPhoto(
-                        onTap: () => context.read<ProductCubit>().uploadImage(),
-                        isLoadedImage: state.isLoadedImage,
-                        imagePath:
-                            productId != null ? state.product!.imagePath : '',
-                      ),
+                          isLoadedImage: state.isLoadedImage,
+                          onTap: () =>
+                              context.read<ProductCubit>().uploadImage(),
+                          imagePath: state.imagePath != ''
+                              ? context.watch<HomeCubit>().localImagePath +
+                                  '/' +
+                                  state.imagePath
+                              : ''),
                       const SizedBox(
                         height: 20,
                       ),
@@ -210,24 +212,46 @@ class _AddProductPageState extends State<AddProductPage> {
                                 ? ButtonSubmit(
                                     'Save Product',
                                     onPressed: () {
-                                      context
-                                          .read<ProductCubit>()
-                                          .insertProduct(
-                                            Product(
-                                              name: _nameController.text,
-                                              categoryId: _categoryId == null
-                                                  ? state.categories.first.id!
-                                                  : _categoryId!,
-                                              buyingPrice: double.parse(
-                                                  _buyingController.text),
-                                              sellingPrice: double.parse(
-                                                  _sellingController.text),
-                                              stock: int.parse(
-                                                  _stockController.text),
-                                              imagePath: state.imagePath,
-                                              status: 1,
-                                            ),
-                                          );
+                                      productId != null
+                                          ?
+                                          // print(state.imagePath)
+                                          context
+                                              .read<ProductCubit>()
+                                              .updateProduct(
+                                                  Product(
+                                                    name: _nameController.text,
+                                                    categoryId: _categoryId!,
+                                                    buyingPrice: double.parse(
+                                                        _buyingController.text),
+                                                    sellingPrice: double.parse(
+                                                        _sellingController
+                                                            .text),
+                                                    stock: int.parse(
+                                                        _stockController.text),
+                                                    imagePath: state.imagePath,
+                                                    status: 1,
+                                                  ),
+                                                  productId!)
+                                          : context
+                                              .read<ProductCubit>()
+                                              .insertProduct(
+                                                Product(
+                                                  name: _nameController.text,
+                                                  categoryId:
+                                                      _categoryId == null
+                                                          ? state.categories
+                                                              .first.id!
+                                                          : _categoryId!,
+                                                  buyingPrice: double.parse(
+                                                      _buyingController.text),
+                                                  sellingPrice: double.parse(
+                                                      _sellingController.text),
+                                                  stock: int.parse(
+                                                      _stockController.text),
+                                                  imagePath: state.imagePath,
+                                                  status: 1,
+                                                ),
+                                              );
                                     },
                                   )
                                 : const Center(

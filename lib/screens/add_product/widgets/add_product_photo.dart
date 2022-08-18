@@ -30,33 +30,33 @@ class AddProductPhoto extends StatelessWidget {
       alignment: Alignment.center,
       child: InkWell(
         onTap: onTap,
-        child: imagePath != ''
+        child: isLoadedImage
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(100),
-                child: Image(
-                  image: FileImage(File(imagePath!)),
+                child: Image.file(
+                  context.watch<ProductCubit>().image!,
                   width: 90,
                   height: 90,
                   fit: BoxFit.cover,
                 ),
               )
-            : !isLoadedImage
-                ? Container(
+            : imagePath != ''
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Image(
+                      image: FileImage(File(imagePath!)),
+                      width: 90,
+                      height: 90,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : Container(
                     width: 90,
                     height: 90,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage('assets/photo.png'),
                       ),
-                    ),
-                  )
-                : ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: Image.file(
-                      context.watch<ProductCubit>().image!,
-                      width: 90,
-                      height: 90,
-                      fit: BoxFit.cover,
                     ),
                   ),
       ),

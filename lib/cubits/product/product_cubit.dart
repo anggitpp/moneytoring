@@ -67,7 +67,9 @@ class ProductCubit extends Cubit<ProductState> {
       Product? product = await productRepository.getProductById(db, id);
 
       emit(state.copyWith(
-          addProductStatus: AddProductStatus.loaded, product: product));
+          addProductStatus: AddProductStatus.loaded,
+          product: product,
+          imagePath: product?.imagePath));
     } catch (e) {
       emit(state.copyWith(addProductStatus: AddProductStatus.error));
     }
@@ -86,6 +88,38 @@ class ProductCubit extends Cubit<ProductState> {
 
       var fileName = basename(image!.path);
       await image!.copy('$duplicateFileName/$fileName');
+
+      List<Product> products = await productRepository.getProducts(db);
+
+      emit(state.copyWith(
+          addProductStatus: AddProductStatus.success,
+          products: products,
+          isLoadedImage: false,
+          imagePath: ''));
+    } catch (e) {
+      emit(state.copyWith(addProductStatus: AddProductStatus.error));
+    }
+  }
+
+  void updateProduct(Product product, int id) async {
+    var db = await openDatabase(databaseApplication);
+
+    emit(state.copyWith(addProductStatus: AddProductStatus.submitting));
+
+    try {
+      await productRepository.update(db, product, id);
+
+      if (state.isLoadedImage) {
+        Product? product = await productRepository.getProductById(db, id);
+
+        await deleteFile(File(product!.imagePath));
+
+        Directory duplicateFilePath = await getApplicationDocumentsDirectory();
+        String duplicateFileName = duplicateFilePath.path;
+
+        var fileName = basename(image!.path);
+        await image!.copy('$duplicateFileName/$fileName');
+      }
 
       List<Product> products = await productRepository.getProducts(db);
 
@@ -138,11 +172,14 @@ class ProductCubit extends Cubit<ProductState> {
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
     image = File(pickedImage!.path); // won't have any error now
+
     emit(state.copyWith(imagePath: pickedImage.name));
   }
 
   void reset() {
     emit(state.copyWith(
+      isLoadedImage: false,
+      imagePath: '',
       productStatus: ProductStatus.initial,
       productCategoryStatus: ProductCategoryStatus.initial,
       addProductStatus: AddProductStatus.initial,
