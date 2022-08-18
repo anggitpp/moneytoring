@@ -86,7 +86,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                           AddCategoryHeader(
                               controller: nameController,
                               selectedIcon:
-                                  'assets/category/${state.selectedIcon}'),
+                                  'assets/category/${state.selectedIcon.replaceAll('assets/category/', '')}'),
                           const SizedBox(
                             height: 20,
                           ),

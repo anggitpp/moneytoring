@@ -18,7 +18,6 @@ class Category {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'category_type':
           categoryType == CategoryType.income ? 'income' : 'expenses',
       'name': name,

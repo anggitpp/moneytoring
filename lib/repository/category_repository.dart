@@ -4,14 +4,6 @@ import 'package:sqflite/sqflite.dart';
 class CategoryRepository {
   final table = 'categories';
 
-  Future open(Database db, String path) async {
-    db = await openDatabase(path, version: 1,
-        onCreate: (Database db, int version) async {
-      await db.execute(
-          "CREATE TABLE $table (id INTEGER PRIMARY KEY, category_type TEXT, name TEXT, image TEXT)");
-    });
-  }
-
   Future<int> insert(Database db, Category category) async {
     int id = await db.insert(table, category.toMap());
 
