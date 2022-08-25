@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moneytoring/config/constant.dart';
 import 'package:moneytoring/config/route_name.dart';
 import 'package:moneytoring/cubits/cubits.dart';
+import 'package:moneytoring/models/category.dart';
 import 'package:moneytoring/screens/home/widgets/home_drawer.dart';
 import 'package:moneytoring/screens/home/widgets/profit_card.dart';
 import 'package:moneytoring/screens/home/widgets/recent_transaction_item.dart';
@@ -20,6 +21,8 @@ class _HomePageState extends State<HomePage>
   late TabController tabController;
   int selectedIndex = 0;
 
+  bool isLoaded = false;
+
   @override
   void initState() {
     super.initState();
@@ -32,6 +35,8 @@ class _HomePageState extends State<HomePage>
       vsync: this,
     );
   }
+
+  CategoryType categoryType = CategoryType.income;
 
   @override
   Widget build(BuildContext context) {
@@ -57,64 +62,76 @@ class _HomePageState extends State<HomePage>
       drawer: const Drawer(
         child: HomeDrawer(),
       ),
-      body: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          const ProfitCard(),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: AppSizes.defaultMargin),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Recent Transactions',
-                  style: AppTextStyle.mediumText.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: AppSizes.phoneWidth(context),
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color: AppColors.lightGreyColor,
-                      borderRadius: BorderRadius.circular(8)),
-                  child: TabBar(
-                    controller: tabController,
-                    labelColor: Colors.black,
-                    labelStyle: AppTextStyle.mediumText
-                        .copyWith(fontWeight: FontWeight.w500),
-                    unselectedLabelColor: AppColors.greyColor,
-                    unselectedLabelStyle: AppTextStyle.mediumText
-                        .copyWith(fontWeight: FontWeight.w500),
-                    indicator: BoxDecoration(
-                      color: AppColors.yellowColor,
-                      borderRadius: BorderRadius.circular(8),
+      body: BlocBuilder<TransactionCubit, TransactionState>(
+        builder: (context, state) {
+          var transactions = state.transactions
+              .where((element) => element.categoryType == categoryType)
+              .toList();
+          return ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              ProfitCard(state.transactions),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: AppSizes.defaultMargin),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Recent Transactions',
+                      style: AppTextStyle.mediumText.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                    tabs: const [
-                      Text(
-                        'Income',
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      width: AppSizes.phoneWidth(context),
+                      height: 40,
+                      decoration: BoxDecoration(
+                          color: AppColors.lightGreyColor,
+                          borderRadius: BorderRadius.circular(8)),
+                      child: TabBar(
+                        onTap: (value) {
+                          setState(() {
+                            if (value == 0) {
+                              categoryType = CategoryType.income;
+                            } else {
+                              categoryType = CategoryType.expenses;
+                            }
+                          });
+                        },
+                        controller: tabController,
+                        labelColor: Colors.black,
+                        labelStyle: AppTextStyle.mediumText
+                            .copyWith(fontWeight: FontWeight.w500),
+                        unselectedLabelColor: AppColors.greyColor,
+                        unselectedLabelStyle: AppTextStyle.mediumText
+                            .copyWith(fontWeight: FontWeight.w500),
+                        indicator: BoxDecoration(
+                          color: AppColors.yellowColor,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        tabs: const [
+                          Text(
+                            'Income',
+                          ),
+                          Text(
+                            'Expenses',
+                          ),
+                        ],
                       ),
-                      Text(
-                        'Expenses',
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                BlocBuilder<TransactionCubit, TransactionState>(
-                  builder: (context, state) {
-                    return ListView.builder(
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ListView.builder(
                       padding: EdgeInsets.zero,
-                      itemCount: state.transactions.length,
+                      itemCount: transactions.length,
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
@@ -125,20 +142,19 @@ class _HomePageState extends State<HomePage>
                                 context,
                                 RouteName.detailTransaction,
                                 arguments: {
-                                  'transaction': state.transactions[index],
+                                  'transaction': transactions[index],
                                 },
                               );
                             },
-                            child: RecentTransactionItem(
-                                state.transactions[index]));
+                            child: RecentTransactionItem(transactions[index]));
                       },
-                    );
-                  },
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }

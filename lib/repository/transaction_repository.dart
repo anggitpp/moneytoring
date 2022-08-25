@@ -49,6 +49,13 @@ class TransactionRepository {
           'quantity': detail.amount,
           'total': detail.product.sellingPrice * detail.amount
         });
+
+        await db.update(
+          productTable,
+          {'stock': detail.product.stock - detail.amount},
+          where: 'id = ?',
+          whereArgs: [detail.product.id],
+        );
       }
 
       return id;
@@ -115,6 +122,13 @@ class TransactionRepository {
             'total': detail.product.sellingPrice * detail.amount
           },
         );
+
+        await db.update(
+          productTable,
+          {'stock': detail.product.stock - detail.amount},
+          where: 'id = ?',
+          whereArgs: [detail.product.id],
+        );
       }
 
       return id;
@@ -123,13 +137,33 @@ class TransactionRepository {
     }
   }
 
-  Future<void> delete(Database db, int transactionid) async {
+  Future<void> delete(Database db, int transactionId) async {
     try {
       await db.delete(transactionTable,
-          where: 'id = ?', whereArgs: [transactionid]);
+          where: 'id = ?', whereArgs: [transactionId]);
 
+      List<Map<String, Object?>> details = await db.query(detailTable,
+          where: 'transaction_id = ?', whereArgs: [transactionId]);
+
+      //LIST DETAILS
+      for (var detail in details) {
+        //GET PRODUCT STOCK FROM SELECTED ITEM
+        var getProduct = await db.query(productTable,
+            where: 'id = ?', whereArgs: [detail['product_id']]);
+        int stock = int.parse(getProduct[0]['stock'].toString());
+
+        //UPDATE STOCK
+        await db.update(
+          productTable,
+          {'stock': stock + int.parse(detail['quantity'].toString())},
+          where: 'id = ?',
+          whereArgs: [detail['product_id']],
+        );
+      }
+
+      //DELETE ALL TRANSACTION DETAIL AFTER UPDATE STOCK
       await db.delete(detailTable,
-          where: 'transaction_id = ?', whereArgs: [transactionid]);
+          where: 'transaction_id = ?', whereArgs: [transactionId]);
     } catch (e) {
       rethrow;
     }

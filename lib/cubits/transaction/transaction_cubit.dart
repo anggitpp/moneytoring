@@ -82,7 +82,10 @@ class TransactionCubit extends Cubit<TransactionState> {
       final items = [
         for (final item in state.transactionItems)
           if (item == contain.first)
-            item.copyWith(amount: item.amount + 1)
+            item.copyWith(
+                amount: item.product.stock == item.amount
+                    ? item.amount
+                    : item.amount + 1)
           else
             item
       ];
@@ -99,7 +102,10 @@ class TransactionCubit extends Cubit<TransactionState> {
     final items = [
       for (final item in state.transactionItems)
         if (item == contain.first)
-          item.copyWith(amount: item.amount + 1)
+          item.copyWith(
+              amount: item.product.stock == item.amount
+                  ? item.amount
+                  : item.amount + 1)
         else
           item
     ];

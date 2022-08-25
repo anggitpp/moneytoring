@@ -35,10 +35,7 @@ class ProductCubit extends Cubit<ProductState> {
     emit(state.copyWith(productCategoryStatus: ProductCategoryStatus.loading));
     var db = await openDatabase(databaseApplication);
 
-    List<Category> categories = await categoryRepository.getCategories(db).then(
-        (value) => value
-            .where((element) => element.categoryType == CategoryType.income)
-            .toList());
+    List<Category> categories = await categoryRepository.getCategories(db);
 
     emit(state.copyWith(
         productCategoryStatus: ProductCategoryStatus.loaded,

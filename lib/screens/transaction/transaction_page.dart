@@ -5,6 +5,7 @@ import 'package:moneytoring/config/constant.dart';
 import 'package:moneytoring/config/route_name.dart';
 import 'package:moneytoring/cubits/cubits.dart';
 import 'package:moneytoring/models/category.dart';
+import 'package:moneytoring/models/transaction_model.dart';
 import 'package:moneytoring/screens/transaction/widget/category_box.dart';
 import 'package:moneytoring/screens/transaction/widget/product_box.dart';
 import 'package:moneytoring/widgets/header_page.dart';
@@ -25,19 +26,26 @@ class TransactionPage extends StatefulWidget {
 }
 
 class _TransactionPageState extends State<TransactionPage> {
+  CategoryType? selectedType;
+
   @override
   void initState() {
-    context.read<TransactionCubit>().loadCategories().then((value) {
-      context.read<TransactionCubit>().loadProducts();
-      context.read<TransactionCubit>().onPressCategory(value
-          .where((element) => element.categoryType == CategoryType.income)
-          .first);
-    });
+    selectedType = CategoryType.income;
+
     if (widget.arguments != null) {
+      TransactionModel transactionModel = widget.arguments!['transaction']!;
       context
           .read<TransactionCubit>()
           .getTransactionDetails(widget.arguments!['transaction']);
+      selectedType = transactionModel.categoryType;
     }
+
+    context.read<TransactionCubit>().loadCategories().then((value) {
+      context.read<TransactionCubit>().loadProducts();
+      context.read<TransactionCubit>().onPressCategory(
+          value.where((element) => element.categoryType == selectedType).first);
+    });
+
     super.initState();
   }
 
@@ -45,6 +53,15 @@ class _TransactionPageState extends State<TransactionPage> {
   void dispose() {
     super.dispose();
   }
+
+  // void onChangeType() {
+  //   context.read<TransactionCubit>().loadCategories().then((value) {
+  //   context.read<TransactionCubit>().loadProducts();
+  //   context.read<TransactionCubit>().onPressCategory(value
+  //       .where((element) => element.categoryType == CategoryType.income)
+  //       .first);
+  // });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +72,7 @@ class _TransactionPageState extends State<TransactionPage> {
           listener: (context, state) {},
           builder: (context, state) {
             List<Category> categories = state.categories
-                .where((element) => element.categoryType == CategoryType.income)
+                .where((element) => element.categoryType == selectedType)
                 .toList();
             return state.transactionProductStatus ==
                     TransactionProductStatus.loaded
@@ -69,17 +86,33 @@ class _TransactionPageState extends State<TransactionPage> {
                             child: const Icon(Icons.arrow_back)),
                         Row(
                           children: [
-                            Text(
-                              'Sale',
-                              style: AppTextStyle.veryLargeText.copyWith(
-                                  fontWeight: FontWeight.w500, fontSize: 20),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            const Icon(
-                              Icons.arrow_drop_down,
-                              size: 30,
+                            DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                style: AppTextStyle.veryLargeText.copyWith(
+                                    fontWeight: FontWeight.w500, fontSize: 20),
+                                onChanged: (value) {
+                                  setState(() {
+                                    if (value == 'Sale') {
+                                      selectedType = CategoryType.income;
+                                    } else {
+                                      selectedType = CategoryType.expenses;
+                                    }
+                                  });
+                                },
+                                value: selectedType == CategoryType.income
+                                    ? 'Sale'
+                                    : 'Expenses',
+                                items: const [
+                                  DropdownMenuItem<String>(
+                                    value: 'Sale',
+                                    child: Text('Sale'),
+                                  ),
+                                  DropdownMenuItem<String>(
+                                    value: 'Expenses',
+                                    child: Text('Expenses'),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -196,6 +229,10 @@ class _TransactionPageState extends State<TransactionPage> {
                         onTap: () => Navigator.pushNamed(
                             context, RouteName.transactionDetail,
                             arguments: {
+                              'category_type':
+                                  selectedType == CategoryType.income
+                                      ? 'income'
+                                      : 'expenses',
                               'transaction': state.transaction,
                               'details': widget.arguments?['details'],
                             }),

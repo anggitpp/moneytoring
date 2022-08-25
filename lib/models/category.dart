@@ -27,9 +27,9 @@ class Category {
 
   factory Category.fromMap(Map<String, dynamic> map) => Category(
         id: map['id'],
-        categoryType: map['category_type'] == 'income'
-            ? CategoryType.income
-            : CategoryType.expenses,
+        categoryType: map['category_type'] == 'expenses'
+            ? CategoryType.expenses
+            : CategoryType.income,
         name: map['name'],
         imagePath: map['image'],
       );

@@ -246,7 +246,8 @@ class _TransactionDetailPageState extends State<TransactionDetailPage> {
                               'fee': _feeController.text.isNotEmpty
                                   ? double.parse(_feeController.text)
                                   : 0,
-                              'category_type': 'income',
+                              'category_type':
+                                  widget.arguments!['category_type'],
                               'discount': _discountController.text.isNotEmpty
                                   ? double.parse(_discountController.text)
                                   : 0,

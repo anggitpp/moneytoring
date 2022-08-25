@@ -1,13 +1,10 @@
 import 'dart:convert';
 
-enum TransactionType {
-  income,
-  expenses,
-}
+import 'category.dart';
 
 class TransactionModel {
   final int id;
-  final TransactionType transactionType;
+  final CategoryType categoryType;
   final String buyerName;
   final String transactionDate;
   final double fee;
@@ -17,7 +14,7 @@ class TransactionModel {
   final String detailTransaction;
   TransactionModel({
     required this.id,
-    required this.transactionType,
+    required this.categoryType,
     required this.buyerName,
     required this.transactionDate,
     required this.fee,
@@ -29,7 +26,7 @@ class TransactionModel {
 
   TransactionModel copyWith({
     int? id,
-    TransactionType? transactionType,
+    CategoryType? categoryType,
     String? buyerName,
     String? transactionDate,
     double? fee,
@@ -40,7 +37,7 @@ class TransactionModel {
   }) {
     return TransactionModel(
       id: id ?? this.id,
-      transactionType: transactionType ?? this.transactionType,
+      categoryType: categoryType ?? this.categoryType,
       buyerName: buyerName ?? this.buyerName,
       transactionDate: transactionDate ?? this.transactionDate,
       fee: fee ?? this.fee,
@@ -54,8 +51,8 @@ class TransactionModel {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'transaction_type':
-          transactionType == TransactionType.income ? 'income' : 'expenses',
+      'category_type':
+          categoryType == CategoryType.income ? 'income' : 'expenses',
       'buyer_name': buyerName,
       'transaction_date': transactionDate,
       'fee': fee,
@@ -69,9 +66,9 @@ class TransactionModel {
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
       id: json['id']?.toInt() ?? 0,
-      transactionType: json['transaction_type'] == 'income'
-          ? TransactionType.income
-          : TransactionType.expenses,
+      categoryType: json['category_type'] == 'income'
+          ? CategoryType.income
+          : CategoryType.expenses,
       buyerName: json['buyer_name'] ?? '',
       transactionDate: json['transaction_date'] ?? '',
       fee: json['fee']?.toDouble() ?? 0.0,
@@ -89,6 +86,6 @@ class TransactionModel {
 
   @override
   String toString() {
-    return 'TransactionModel(id: $id, transactionType: $transactionType, buyer_name: $buyerName, transaction_date: $transactionDate, fee: $fee, discount: $discount, total: $totalPrice, quantity: $quantity, detailTransaction: $detailTransaction)';
+    return 'TransactionModel(id: $id, categoryType: $categoryType, buyer_name: $buyerName, transaction_date: $transactionDate, fee: $fee, discount: $discount, total: $totalPrice, quantity: $quantity, detailTransaction: $detailTransaction)';
   }
 }
