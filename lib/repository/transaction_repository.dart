@@ -1,3 +1,5 @@
+import 'package:moneytoring/models/top_product_category.dart';
+import 'package:moneytoring/models/top_product_sales.dart';
 import 'package:moneytoring/models/transaction_detail.dart';
 import 'package:moneytoring/models/transaction_item.dart';
 import 'package:moneytoring/models/transaction_model.dart';
@@ -7,6 +9,7 @@ class TransactionRepository {
   final transactionTable = 'transactions';
   final detailTable = 'transaction_details';
   final productTable = 'products';
+  final categoryTable = 'categories';
 
   Future<void> _createTable() async {
     var db = await openDatabase('moneytoring.db');
@@ -86,7 +89,50 @@ class TransactionRepository {
     List<TransactionModel> transactionList = transactions.isNotEmpty
         ? transactions.map((e) => TransactionModel.fromJson(e)).toList()
         : [];
+
     return transactionList;
+  }
+
+  Future<List<TopProductSales>> getTopProductSales(Database db) async {
+    try {
+      await db.query(detailTable, orderBy: 'id DESC');
+    } on DatabaseException {
+      await _createTable();
+    }
+
+    var result = await db.rawQuery(
+        '''SELECT SUM(t1.quantity) totalQuantity, product_id, category_type, t3.name, t3.image, t3.selling_price 
+        FROM $detailTable t1 JOIN $transactionTable t2 ON t1.transaction_id = t2.id 
+        JOIN $productTable t3 ON t1.product_id = t3.id 
+        WHERE t2.category_type = 'income'
+        GROUP BY product_id ORDER BY totalQuantity DESC LIMIT 5''');
+    List<TopProductSales> datas = result.isNotEmpty
+        ? result.map((e) => TopProductSales.fromMap(e)).toList()
+        : [];
+
+    return datas;
+  }
+
+  Future<List<TopProductCategory>> getTopCategorySales(Database db) async {
+    try {
+      await db.query(detailTable, orderBy: 'id DESC');
+    } on DatabaseException {
+      await _createTable();
+    }
+
+    var result = await db.rawQuery(
+        '''SELECT SUM(t1.quantity) totalQuantity, t3.category_id, t4.name 
+        FROM $detailTable t1 JOIN $transactionTable t2 ON t1.transaction_id = t2.id 
+        JOIN $productTable t3 ON t1.product_id = t3.id 
+        JOIN $categoryTable t4 ON t3.category_id = t4.id 
+        WHERE t2.category_type = 'income'
+        GROUP BY category_id ORDER BY totalQuantity DESC LIMIT 5''');
+
+    List<TopProductCategory> datas = result.isNotEmpty
+        ? result.map((e) => TopProductCategory.fromMap(e)).toList()
+        : [];
+
+    return datas;
   }
 
   Future<List<TransactionDetail>> getTransactionDetails(

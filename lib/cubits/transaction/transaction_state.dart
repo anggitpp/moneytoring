@@ -1,5 +1,12 @@
 part of 'transaction_cubit.dart';
 
+enum TransactionRecapStatus {
+  initial,
+  loading,
+  loaded,
+  error,
+}
+
 enum TransactionCategoryStatus {
   initial,
   loading,
@@ -34,6 +41,12 @@ class TransactionState extends Equatable {
   final Category? selectedCategory;
   final double totalPrice;
   final TransactionStatus transactionStatus;
+  final int totalProfit;
+  final int totalIncome;
+  final int totalExpenses;
+  final TransactionRecapStatus transactionRecapStatus;
+  final List<TopProductSales> topSales;
+  final List<TopProductCategory> topCategories;
   const TransactionState({
     required this.transactionCategoryStatus,
     required this.transactionProductStatus,
@@ -45,6 +58,12 @@ class TransactionState extends Equatable {
     this.selectedCategory,
     required this.totalPrice,
     required this.transactionStatus,
+    this.totalProfit = 0,
+    this.totalIncome = 0,
+    this.totalExpenses = 0,
+    required this.transactionRecapStatus,
+    required this.topSales,
+    required this.topCategories,
   });
 
   factory TransactionState.initial() {
@@ -52,11 +71,14 @@ class TransactionState extends Equatable {
       transactionCategoryStatus: TransactionCategoryStatus.initial,
       transactionProductStatus: TransactionProductStatus.initial,
       transactionStatus: TransactionStatus.initial,
+      transactionRecapStatus: TransactionRecapStatus.initial,
       categories: [],
       transactions: [],
       products: [],
       transactionItems: [],
       totalPrice: 0,
+      topSales: [],
+      topCategories: [],
     );
   }
 
@@ -71,6 +93,12 @@ class TransactionState extends Equatable {
     Category? selectedCategory,
     double? totalPrice,
     TransactionStatus? transactionStatus,
+    int? totalProfit,
+    int? totalIncome,
+    int? totalExpenses,
+    TransactionRecapStatus? transactionRecapStatus,
+    List<TopProductSales>? topSales,
+    List<TopProductCategory>? topCategories,
   }) {
     return TransactionState(
       transactionCategoryStatus:
@@ -85,12 +113,19 @@ class TransactionState extends Equatable {
       selectedCategory: selectedCategory ?? this.selectedCategory,
       totalPrice: totalPrice ?? this.totalPrice,
       transactionStatus: transactionStatus ?? this.transactionStatus,
+      totalProfit: totalProfit ?? this.totalProfit,
+      totalIncome: totalIncome ?? this.totalIncome,
+      totalExpenses: totalExpenses ?? this.totalExpenses,
+      transactionRecapStatus:
+          transactionRecapStatus ?? this.transactionRecapStatus,
+      topSales: topSales ?? this.topSales,
+      topCategories: topCategories ?? this.topCategories,
     );
   }
 
   @override
   String toString() {
-    return 'TransactionState(transactionCategoryStatus: $transactionCategoryStatus, transactionProductStatus: $transactionProductStatus, transaction: $transaction, categories: $categories, products: $products, transactionItems: $transactionItems, transactions: $transactions, selectedCategory: $selectedCategory, totalPrice: $totalPrice, transactionStatus: $transactionStatus)';
+    return 'TransactionState(transactionCategoryStatus: $transactionCategoryStatus, transactionProductStatus: $transactionProductStatus, transaction: $transaction, categories: $categories, products: $products, transactionItems: $transactionItems, transactions: $transactions, selectedCategory: $selectedCategory, totalPrice: $totalPrice, transactionStatus: $transactionStatus, totalProfit: $totalProfit, totalIncome: $totalIncome, totalExpenses: $totalExpenses, transactionRecapStatus: $transactionRecapStatus, topSales: $topSales, topCategories: $topCategories)';
   }
 
   @override
@@ -106,6 +141,12 @@ class TransactionState extends Equatable {
       selectedCategory ?? '',
       totalPrice,
       transactionStatus,
+      totalProfit,
+      totalIncome,
+      totalExpenses,
+      transactionRecapStatus,
+      topSales,
+      topCategories,
     ];
   }
 }

@@ -1,26 +1,40 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+
+import 'package:moneytoring/models/top_product_sales.dart';
 
 import '../../../config/constant.dart';
 import '../../../config/theme.dart';
+import '../../../cubits/cubits.dart';
 
 class TopProductItem extends StatelessWidget {
-  const TopProductItem({Key? key}) : super(key: key);
+  final TopProductSales topProductSales;
+  const TopProductItem({
+    Key? key,
+    required this.topProductSales,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var imagePath = context.watch<HomeCubit>().localImagePath +
+        '/' +
+        topProductSales.imagePath;
     return Column(
       children: [
         Row(
           children: [
-            Container(
+            SizedBox(
               width: 50,
               height: 50,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    image: AssetImage('assets/images/aquarium.jpeg'),
-                    fit: BoxFit.cover),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Image(
+                  image: FileImage(File(imagePath)),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             const SizedBox(
@@ -30,14 +44,14 @@ class TopProductItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Aquarium XL',
+                  topProductSales.productName,
                   style: AppTextStyle.mediumText,
                 ),
                 const SizedBox(
                   height: 4,
                 ),
                 Text(
-                  '50 Product Sold',
+                  '${topProductSales.totalQuantity} Product Sold',
                   style: AppTextStyle.greySmallText,
                 )
               ],
@@ -46,7 +60,7 @@ class TopProductItem extends StatelessWidget {
             Text(
               NumberFormat.currency(
                       locale: 'id_ID', symbol: '', decimalDigits: 0)
-                  .format(50000),
+                  .format(topProductSales.sellingPrice),
               style:
                   AppTextStyle.mediumText.copyWith(fontWeight: FontWeight.w500),
             )

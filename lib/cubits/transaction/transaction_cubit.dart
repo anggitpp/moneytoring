@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:moneytoring/models/top_product_category.dart';
+import 'package:moneytoring/models/top_product_sales.dart';
 import 'package:moneytoring/models/transaction_model.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -60,10 +62,38 @@ class TransactionCubit extends Cubit<TransactionState> {
 
     List<TransactionModel> transactions =
         await transactionRepository.getTransactions(db);
+
+    int totalIncome = 0;
+    int totalExpenses = 0;
+    int totalProfit = 0;
+
+    var incomeTransactions = transactions
+        .where((element) => element.categoryType == CategoryType.income);
+    var expenseTransactions = transactions
+        .where((element) => element.categoryType == CategoryType.expenses);
+    if (incomeTransactions.isNotEmpty) {
+      totalIncome = transactions
+          .where((element) => element.categoryType == CategoryType.income)
+          .map((e) => e.totalPrice)
+          .reduce((a, b) => a + b)
+          .toInt();
+    }
+    if (expenseTransactions.isNotEmpty) {
+      totalExpenses = transactions
+          .where((element) => element.categoryType == CategoryType.expenses)
+          .map((e) => e.totalPrice)
+          .reduce((a, b) => a + b)
+          .toInt();
+    }
+    totalProfit = totalIncome - totalExpenses;
+
     emit(
       state.copyWith(
           transactionStatus: TransactionStatus.loaded,
-          transactions: transactions),
+          transactions: transactions,
+          totalIncome: totalIncome,
+          totalExpenses: totalExpenses,
+          totalProfit: totalProfit),
     );
   }
 
@@ -221,6 +251,33 @@ class TransactionCubit extends Cubit<TransactionState> {
           transactions: transactions));
     } catch (e) {
       emit(state.copyWith(transactionStatus: TransactionStatus.error));
+    }
+  }
+
+  void getRecapTransaction() async {
+    var db = await openDatabase(databaseApplication);
+
+    emit(
+        state.copyWith(transactionRecapStatus: TransactionRecapStatus.loading));
+
+    try {
+      print('test');
+
+      List<TopProductSales> datas =
+          await transactionRepository.getTopProductSales(db);
+
+      print(datas);
+
+      List<TopProductCategory> categories =
+          await transactionRepository.getTopCategorySales(db);
+
+      emit(state.copyWith(
+          transactionRecapStatus: TransactionRecapStatus.loaded,
+          topCategories: categories,
+          topSales: datas));
+    } catch (e) {
+      emit(
+          state.copyWith(transactionRecapStatus: TransactionRecapStatus.error));
     }
   }
 

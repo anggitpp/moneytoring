@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:moneytoring/cubits/transaction/transaction_cubit.dart';
 import 'package:moneytoring/models/category.dart';
 
 import 'package:moneytoring/models/transaction_model.dart';
@@ -18,31 +20,7 @@ class ProfitCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int totalIncome = 0;
-    int totalExpenses = 0;
-    int totalProfit = 0;
-
-    if (transactions.isNotEmpty) {
-      var incomeTransactions = transactions
-          .where((element) => element.categoryType == CategoryType.income);
-      var expenseTransactions = transactions
-          .where((element) => element.categoryType == CategoryType.expenses);
-      if (incomeTransactions.isNotEmpty) {
-        totalIncome = transactions
-            .where((element) => element.categoryType == CategoryType.income)
-            .map((e) => e.totalPrice)
-            .reduce((a, b) => a + b)
-            .toInt();
-      }
-      if (expenseTransactions.isNotEmpty) {
-        totalExpenses = transactions
-            .where((element) => element.categoryType == CategoryType.expenses)
-            .map((e) => e.totalPrice)
-            .reduce((a, b) => a + b)
-            .toInt();
-      }
-      totalProfit = totalIncome - totalExpenses;
-    }
+    var dataTransaction = context.read<TransactionCubit>().state;
     return Container(
       width: AppSizes.phoneWidth(context),
       height: 235,
@@ -83,7 +61,7 @@ class ProfitCard extends StatelessWidget {
                     Text(
                       NumberFormat.currency(
                               locale: 'id_ID', symbol: 'Rp. ', decimalDigits: 0)
-                          .format(totalProfit),
+                          .format(dataTransaction.totalProfit),
                       style: AppTextStyle.veryLargeText
                           .copyWith(fontWeight: FontWeight.w500, fontSize: 22),
                     ),
@@ -101,14 +79,14 @@ class ProfitCard extends StatelessWidget {
               children: [
                 ProfitTextBox(
                   title: 'Purchase',
-                  value: totalExpenses,
+                  value: dataTransaction.totalExpenses,
                 ),
                 SizedBox(
                   width: 20,
                 ),
                 ProfitTextBox(
                   title: 'Sale',
-                  value: totalIncome,
+                  value: dataTransaction.totalIncome,
                 ),
               ],
             ),

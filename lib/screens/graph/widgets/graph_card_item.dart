@@ -5,7 +5,10 @@ import '../../../config/constant.dart';
 import '../../../config/theme.dart';
 
 class GraphCardItem extends StatelessWidget {
-  const GraphCardItem({Key? key}) : super(key: key);
+  final int amount;
+  final String text;
+  const GraphCardItem(this.amount, {Key? key, required this.text})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +23,7 @@ class GraphCardItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Purchase',
+            text,
             style: AppTextStyle.greyMediumText.copyWith(fontSize: 15),
           ),
           const SizedBox(
@@ -36,7 +39,7 @@ class GraphCardItem extends StatelessWidget {
               Text(
                 NumberFormat.currency(
                         locale: 'id_ID', symbol: '', decimalDigits: 0)
-                    .format(7000000),
+                    .format(amount),
                 style: AppTextStyle.mediumText
                     .copyWith(fontSize: 15, fontWeight: FontWeight.bold),
               )
